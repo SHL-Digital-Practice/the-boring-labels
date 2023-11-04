@@ -1,50 +1,108 @@
 <template>
-  <div>
-    <h1 class="text-3xl font-bold underline text-orange-400">Hello Boring!</h1>
-    <h4>Logo</h4>
-    <link rel="manifest" href="manifest.json" />
-    <div class="flex flex-col">
-      <!-- <div v-for="room in rooms">
-        <div>{{ room }}</div>
-      </div> -->
+  <div class="flex justify-center">
+    <div class="max-w-md w-full">
+      <h1 class="text-3xl font-extrabold text-slate-500">Boar Ring</h1>
 
-      labels
-      <div v-for="label in labels" class="flex border-b border-slate-500">
-        <div>{{ label.sequence }}</div>
-        <div>{{ [...label.labels].splice(0, 3) }}</div>
-      </div>
-      <div>
-        <button
-          @click="getLabels"
-          class="border-2 rounded-lg px-2 border-slate-200"
+      <Combobox
+        :label="'Boring List'"
+        :items="['P&W Benchmark']"
+        @selected="selectList"
+      />
+      <Combobox
+        :label="'Parameter'"
+        :items="['P&W Benchmark']"
+        @selected="selectList"
+      />
+      <link rel="manifest" href="manifest.json" />
+      <div class="flex flex-col">
+        <div
+          v-for="(items, key) of labelGroups"
+          class="border-b-2 border-slate-200 w-full py-4 px-4"
         >
-          Ask
-        </button>
+          <div
+            class="flex w-full justify-between"
+            @click.stop="expand(key.toString())"
+          >
+            <div class="flex items-center">
+              <ChevronDownIcon class="h-5" />
+
+              {{ items.length }}
+            </div>
+            <div class="bg-green-200 text-green-800 rounded-full px-2">
+              <!-- {{ label.labels[0] }} -->
+              {{ key }}
+            </div>
+            <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
+          </div>
+          <Collapse :when="expanded === key.toString()" class="v-collapse">
+            <div class="" v-for="item in items">
+              {{ item.sequence }}
+            </div>
+          </Collapse>
+        </div>
+        <div>
+          <button
+            @click="getLabels"
+            class="border-2 rounded-lg px-2 border-slate-200"
+          >
+            Ask
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref } from "vue";
+import { computed, ref, watch } from "vue";
 import { spaces as spacesPw } from "./constats/spaces-pw";
 import { rooms } from "./constats/rooms";
 import { useLabelsStore } from "./stores/labels";
+import Combobox from "./components/Combobox.vue";
+import { group } from "radash";
+import { Collapse } from "vue-collapsed";
+import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+
 const store = useLabelsStore();
 
 const candidateLabels = computed(() => spacesPw);
 const inputs = computed(() => rooms);
 const labels = computed(() => store.labels);
 
-console.log(spacesPw.join(","), spacesPw);
+const labelGroups = ref("");
 
-function getLabels() {
+const expanded = ref("");
+const list = ref("placeholfer");
+
+async function getLabels() {
   store.labels = [];
+  const promises = [];
 
   for (let i = 0; i < inputs.value.length; i++) {
-    store.fetchLabels({
+    const promise = store.fetchLabels({
       inputs: inputs.value[i],
       parameters: { candidate_labels: candidateLabels.value },
     });
+
+    promises.push(promise);
   }
+
+  await Promise.all(promises);
+  const grouped = group(labels.value, (l) => l.labels[0]);
+
+  labelGroups.value = grouped;
+
+  console.log("groupedLabels", labelGroups.value);
+}
+
+function selectList(item: string) {
+  list.value = item;
+}
+
+function expand(key: string) {
+  if (expanded.value === key) {
+    expanded.value = "";
+    return;
+  }
+  expanded.value = key;
 }
 </script>

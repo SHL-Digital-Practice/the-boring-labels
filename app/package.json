@@ -10,8 +10,12 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.16",
+    "@heroicons/vue": "^2.0.18",
     "pinia": "^2.1.7",
+    "radash": "^11.0.0",
     "vue": "^3.3.4",
+    "vue-collapsed": "^1.2.9",
     "vue-router": "^4.2.5"
   },
   "devDependencies": {

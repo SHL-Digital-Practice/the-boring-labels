@@ -36,8 +36,6 @@ export const useLabelsStore = defineStore("labels", () => {
     inputs: string;
     parameters: { candidate_labels: string[] };
   }) {
-    console.log("data", data);
-
     const response = await fetch(
       "https://api-inference.huggingface.co/models/facebook/bart-large-mnli",
       {
@@ -48,7 +46,6 @@ export const useLabelsStore = defineStore("labels", () => {
     );
 
     labels.value.push(await response.json());
-    console.log("labels", labels.value);
   }
 
   return { labels, fetchLabels };
