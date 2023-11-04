@@ -11,7 +11,7 @@
       labels
       <div v-for="label in labels" class="flex border-b border-slate-500">
         <div>{{ label.sequence }}</div>
-        <div>{{ label.labels.splice(0, 3) }}</div>
+        <div>{{ [...label.labels].splice(0, 3) }}</div>
       </div>
       <div>
         <button
@@ -31,9 +31,11 @@ import { rooms } from "./constats/rooms";
 import { useLabelsStore } from "./stores/labels";
 const store = useLabelsStore();
 
-const spaces = computed(() => spacesPw);
-const inputs = computed(() => [...rooms.slice(0, 3)]);
+const candidateLabels = computed(() => spacesPw);
+const inputs = computed(() => rooms);
 const labels = computed(() => store.labels);
+
+console.log(spacesPw.join(","), spacesPw);
 
 function getLabels() {
   store.labels = [];
@@ -41,7 +43,7 @@ function getLabels() {
   for (let i = 0; i < inputs.value.length; i++) {
     store.fetchLabels({
       inputs: inputs.value[i],
-      parameters: { candidate_labels: spaces.value.slice(0, 10) },
+      parameters: { candidate_labels: candidateLabels.value },
     });
   }
 }
