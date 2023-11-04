@@ -1,85 +1,48 @@
-<script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
+  <div>
+    <h1 class="text-3xl font-bold underline text-orange-400">Hello Boring!</h1>
+    <h4>Logo</h4>
+    <link rel="manifest" href="manifest.json" />
+    <div class="flex flex-col">
+      <!-- <div v-for="room in rooms">
+        <div>{{ room }}</div>
+      </div> -->
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
+      labels
+      <div v-for="label in labels" class="flex border-b border-slate-500">
+        <div>{{ label.sequence }}</div>
+        <div>{{ label.labels.splice(0, 3) }}</div>
+      </div>
+      <div>
+        <button
+          @click="getLabels"
+          class="border-2 rounded-lg px-2 border-slate-200"
+        >
+          Ask
+        </button>
+      </div>
     </div>
-  </header>
-
-  <RouterView />
+  </div>
 </template>
+<script lang="ts" setup>
+import { computed, ref } from "vue";
+import { spaces as spacesPw } from "./constats/spaces-pw";
+import { rooms } from "./constats/rooms";
+import { useLabelsStore } from "./stores/labels";
+const store = useLabelsStore();
 
-<style scoped>
-header {
-  line-height: 1.5;
-  max-height: 100vh;
-}
+const spaces = computed(() => spacesPw);
+const inputs = computed(() => [...rooms.slice(0, 3)]);
+const labels = computed(() => store.labels);
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
+function getLabels() {
+  store.labels = [];
 
-nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
-  margin-top: 2rem;
-}
-
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  for (let i = 0; i < inputs.value.length; i++) {
+    store.fetchLabels({
+      inputs: inputs.value[i],
+      parameters: { candidate_labels: spaces.value.slice(0, 10) },
+    });
   }
 }
-</style>
+</script>
