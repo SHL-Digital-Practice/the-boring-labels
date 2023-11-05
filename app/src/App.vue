@@ -1,7 +1,10 @@
 <template>
   <div class="flex justify-center">
+    <div
+      class="absolute top-0 h-[300px] w-full bg-gradient-to-b from-green-100 to-white -z-10"
+    />
     <div class="max-w-md w-full">
-      <h1 class="text-3xl font-extrabold text-slate-500">Boar Ring</h1>
+      <TheHeader class="pb-4" />
 
       <Combobox
         :label="'Boring List'"
@@ -60,15 +63,14 @@
           >
             Ask
           </button>
-          <button @click="handleSave">
-            Save
-          </button>
+          <button @click="handleSave">Save</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import TheHeader from "./components/TheHeader.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { spaces as spacesPw } from "./constats/spaces-pw";
 import { rooms } from "./constats/rooms";
@@ -96,17 +98,20 @@ async function getLabels(item: any) {
   const promises = [];
 
   const rooms = await revit.getRoomNames();
-  console.log(rooms)
+  console.log(rooms);
 
-  let count = 0
+  let count = 0;
   for (const room of rooms) {
-    console.log(room.Name)
-    const promise = store.fetchLabels({
-      source_sentence: room.Name,
-      sentences: candidateLabels.value,
-    }, room.ElementId);
+    console.log(room.Name);
+    const promise = store.fetchLabels(
+      {
+        source_sentence: room.Name,
+        sentences: candidateLabels.value,
+      },
+      room.ElementId
+    );
     promises.push(promise);
-    count++
+    count++;
   }
 
   await Promise.all(promises);
@@ -146,11 +151,11 @@ async function handleSave() {
   for (const label of labels) {
     if (!label.elementId) continue;
     const data =
-        await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
-          label.elementId,
-          "Boring Name",
-          label.labels[0]
-        );
+      await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
+        label.elementId,
+        "Boring Name",
+        label.labels[0]
+      );
   }
 }
 
