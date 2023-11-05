@@ -20,7 +20,7 @@
       <div class="flex flex-col">
         <div
           v-for="(items, key) of labelGroups"
-          class="border-b-2 border-slate-200 w-full py-4 px-4"
+          class="border-b-[1px] border-slate-200 w-full py-3 px-4"
         >
           <div
             class="flex w-full justify-between cursor-pointer"
@@ -33,8 +33,9 @@
                   expanded !== key.toString() ? ['-rotate-90'] : ['rotate-0']
                 "
               />
-
-              {{ items.length }}
+              <div class="text-xs">
+                {{ items.length }}
+              </div>
             </div>
             <div
               class="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-xs"
@@ -53,7 +54,7 @@
                 {{ item.sequence }}
               </p>
               <div class="flex space-x-2 w-full justify-between">
-                <p class="text-slate-300 text-sm">
+                <p class="text-slate-300 text-xs">
                   {{ Math.round(item.scores[0] * 100) }}%
                 </p>
                 <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
