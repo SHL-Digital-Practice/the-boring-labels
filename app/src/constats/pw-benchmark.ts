@@ -1,45 +1,22 @@
 export const pwBenchmark = [
-  "Conference and Collaboration",
-  "Game Room (Recreation Space, Designated)",
-  "Workstation",
-  "Office",
-  "Phone Room / Focus Room",
-  "Project Room / War Room / Case Room",
-  "Pantry",
-  "Library / Resource Center",
-  "Wellness / Mother's Room",
-  "Training Room",
-  "Tele-Conferencing",
-  "Other",
-  "Cafe",
-  "Reception (Main)",
-  "Auditorium",
-  "Phone Room",
-  "Prayer Room",
-  "Gallery Space (Art, Community Display, History, etc.)",
-  "Copy / Print",
-  "File / Records / Archive Room",
-  "Main Mail / Shipping Room",
-  "Storage (Tenant Operated)",
-  "Outdoor Space (Tenant Operated)",
-  "Lab",
-  "Fitness Room",
-  "Locker Room",
-  "Product Development Space",
-  "Building and Grounds Storage (Tenant Operated)",
-  "Staffed Food Services",
-  "Retail and Services",
-  "Bike Storage Room",
-  "Main Copy / Print",
-  "Daycare/Childcare",
-  "Daycare/Childcare Outdoor",
-  "Doctor's Office / Nurse's Office",
-  "Exercise Studio",
-  "Loading Dock (Tenant Operated)",
-  "High Density File / Records",
-  "Gymnasium",
-  "Focus Room",
-  "Meditation Room",
-  "Stores and Services",
-  "Massage Room",
+  "Meeting Spaces", // Combines Conference, Collaboration, and Tele-Conferencing
+  "Recreation Areas", // Combines Game Room, Fitness Room, Gymnasium, etc.
+  "Workspaces", // Combines Workstation, Office, Project Room, etc.
+  "Communication Rooms", // Combines Phone Room, Tele-Conferencing
+  "Food and Beverage", // Combines Pantry, Cafe, Staffed Food Services
+  "Learning Centers", // Combines Library, Training Room
+  "Wellness Facilities", // Combines Wellness, Prayer Room, Meditation Room, etc.
+  "Public Areas", // Combines Reception, Gallery Space, Auditorium, etc.
+  "Support Rooms", // Combines Copy/Print, File/Archive, Mail Room
+  "Storage Spaces", // Combines various storage rooms
+  "Outdoor Spaces", // Combines Outdoor Space, Childcare Outdoor, etc.
+  "Research and Development", // Combines Lab, Product Development Space
+  "Personal Care", // Combines Locker Room, Massage Room, Doctor's Office
+  "Childcare Facilities", // Combines Daycare/Childcare indoor and outdoor
+  "Fitness and Exercise", // Combines Fitness Room, Exercise Studio
+  "Service Areas", // Combines Retail and Services, Stores and Services
+  "Transport Amenities", // Combines Bike Storage, Loading Dock
+  "Specialized Work Areas", // Combines High Density File/Records, Focus Room
+  "Spiritual Room", // Stands alone as Prayer Room or Meditation Room
+  "Other", // For anything not covered in the above categories
 ];
