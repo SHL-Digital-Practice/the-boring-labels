@@ -1,12 +1,13 @@
 <template>
-  <Menu as="div" class="relative inline-block text-left">
+  <Menu as="div" class="relative inline-block">
     <div>
       <MenuButton
-        class="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+        class="bg-green-200 text-green-800 rounded-full px-2 w-32 truncate absolute"
       >
-        Options
+        {{ label }}
+        dsasd
         <ChevronDownIcon
-          class="-mr-1 h-5 w-5 text-gray-400"
+          class="-mr-1 h-5 w-5 text-gray-400 absolute right-1.5 bg-white"
           aria-hidden="true"
         />
       </MenuButton>
@@ -21,52 +22,31 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 top-7 z-10 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
-        <div class="py-1">
-          <MenuItem v-slot="{ active }">
-            <a
-              href="#"
-              :class="[
-                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'block px-4 py-2 text-sm',
-              ]"
-              >Account settings</a
+        <div class="py-1" v-for="item in items">
+          <MenuItem v-if="Number(item.coefficient) > 0.5">
+            <div
+              class="rounded-full w-full truncate bg-green-200 text-center text-xs font-semibold"
             >
+              <!-- {{ item.coefficient }} -->
+              {{ item.name }}
+            </div>
           </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <a
-              href="#"
-              :class="[
-                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'block px-4 py-2 text-sm',
-              ]"
-              >Support</a
+          <MenuItem v-else>
+            <div
+              class="rounded-full w-full truncate bg-yellow-200 text-center text-xs font-semibold"
             >
+              {{ item.name }}
+            </div>
           </MenuItem>
-          <MenuItem v-slot="{ active }">
-            <a
-              href="#"
-              :class="[
-                active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                'block px-4 py-2 text-sm',
-              ]"
-              >License</a
+          <!-- <MenuItem >
+            <div
+              class="rounded-full w-full truncate bg-green-200 text-center text-xs font-semibold"
             >
-          </MenuItem>
-          <form method="POST" action="#">
-            <MenuItem v-slot="{ active }">
-              <button
-                type="submit"
-                :class="[
-                  active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                  'block w-full px-4 py-2 text-left text-sm',
-                ]"
-              >
-                Sign out
-              </button>
-            </MenuItem>
-          </form>
+              {{ item.name }}
+            </div>
+          </MenuItem> -->
         </div>
       </MenuItems>
     </transition>
@@ -76,4 +56,9 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+
+const props = defineProps<{
+  label: string;
+  items: { name: string; coefficient: number }[];
+}>();
 </script>
