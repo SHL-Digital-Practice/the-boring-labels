@@ -1,4 +1,4 @@
-export const spaces = [
+export const pwBenchmark = [
   "Conference and Collaboration",
   "Game Room (Recreation Space, Designated)",
   "Workstation",

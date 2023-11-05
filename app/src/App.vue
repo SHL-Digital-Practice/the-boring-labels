@@ -5,7 +5,7 @@
 
       <Combobox
         :label="'Boring List'"
-        :items="['P&W Benchmark']"
+        :items="candidateLabelSets"
         @selected="selectList"
       />
       <!-- <Combobox
@@ -68,7 +68,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, onMounted, ref, watch } from "vue";
-import { spaces as spacesPw } from "./constats/spaces-pw";
+import { pwBenchmark } from "./constats/pw-benchmark";
 import { rooms } from "./constats/rooms";
 import { useLabelsStore } from "./stores/labels";
 import Combobox from "./components/Combobox.vue";
@@ -77,11 +77,15 @@ import { Collapse } from "vue-collapsed";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { useRevitStore } from "./stores/revit";
 import Dropdown from "./components/Dropdown.vue";
+import { largeOffice } from "./constats/ashrae-2019-large-office";
 
 const store = useLabelsStore();
 const revit = useRevitStore();
 
-const candidateLabels = computed(() => spacesPw);
+const candidateLabelSets = ["P&W Benchmark", "ASHRAE 2019 Large Office"];
+const candidateLabels = ref<string[]>(
+  selectCandidateLabels(candidateLabelSets[0])
+);
 const inputs = computed(() => rooms);
 const labels = computed(() => store.labels);
 
@@ -135,8 +139,12 @@ async function getLabels(item: any) {
   labelGroups.value = grouped;
 }
 
-function selectList(item: string) {
-  list.value = item;
+function selectCandidateLabels(item: string) {
+  if (item === "P&W Benchmark") {
+    return pwBenchmark;
+  } else if (item === "ASHRAE 2019 Large Office") {
+    return largeOffice;
+  }
 }
 
 function mapLabels(item: any) {
@@ -178,3 +186,4 @@ onMounted(async () => {
   await revit.getRoomNames();
 });
 </script>
+./constats/pw-benchmark
