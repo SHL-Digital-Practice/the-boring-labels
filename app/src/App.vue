@@ -91,8 +91,8 @@ async function getLabels(item: any) {
 
   for (let i = 0; i < inputs.value.length; i++) {
     const promise = store.fetchLabels({
-      inputs: inputs.value[i],
-      parameters: { candidate_labels: candidateLabels.value },
+      source_sentence: inputs.value[i],
+      sentences: candidateLabels.value,
     });
 
     promises.push(promise);
@@ -101,6 +101,8 @@ async function getLabels(item: any) {
   await Promise.all(promises);
 
   if (!labels.value.length) return;
+
+  console.log(labels.value);
 
   const grouped = group(labels.value, (l) => l.labels[0]);
 

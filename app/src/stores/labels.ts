@@ -32,20 +32,49 @@ export const useLabelsStore = defineStore("labels", () => {
     },
   ]);
 
-  async function fetchLabels(data: {
-    inputs: string;
-    parameters: { candidate_labels: string[] };
+  async function fetchLabels(inputs: {
+    source_sentence: string;
+    sentences: string[];
   }) {
-    const response = await fetch(
-      "https://api-inference.huggingface.co/models/facebook/bart-large-mnli",
-      {
-        headers: { Authorization: `Bearer ${import.meta.env.VITE_HF_API_KEY}` },
-        method: "POST",
-        body: JSON.stringify(data),
-      }
-    );
+    try {
+      console.log(inputs);
 
-    labels.value.push(await response.json());
+      const response = await fetch(
+        "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2",
+        {
+          headers: {
+            Authorization: `Bearer ${import.meta.env.VITE_HF_API_KEY}`,
+          },
+          method: "POST",
+          body: JSON.stringify(inputs),
+        }
+      );
+
+      const data = await response.json();
+
+      const responseData = {
+        sequence: inputs.source_sentence,
+        labels: inputs.sentences,
+        scores: data,
+      } as ResponseData;
+
+      console.log(responseData);
+
+      // Create an array of objects with labels and scores
+      const labelScores = responseData.labels.map((label, index) => {
+        return { label, score: data[index] };
+      });
+
+      // Sort the labelScores array by scores in descending order
+      labelScores.sort((a, b) => b.score - a.score);
+
+      responseData.labels = labelScores.map((labelScore) => labelScore.label);
+      responseData.scores = labelScores.map((labelScore) => labelScore.score);
+
+      labels.value.push(responseData);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return { labels, fetchLabels };
