@@ -3,7 +3,7 @@
     <div
       class="absolute top-0 h-[300px] w-full bg-gradient-to-b from-green-100 to-white -z-10"
     />
-    <div class="max-w-md w-full">
+    <div class="max-w-lg w-full">
       <TheHeader class="pb-4" />
 
       <Combobox
