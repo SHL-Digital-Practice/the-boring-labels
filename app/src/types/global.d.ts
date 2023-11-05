@@ -2,6 +2,7 @@ declare global {
     interface Window {
       chrome: {
         webview: {
+          postMessage: any;
           hostObjects: {
             boringBridge: {
                 GetAllRoomsNames(): Promise<string>;

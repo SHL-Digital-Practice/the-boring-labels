@@ -143,16 +143,27 @@ function expand(key: string) {
   expanded.value = key;
 }
 
+interface UpdateParametersMessage {
+  type: string;
+  content: {
+    elementId: string;
+    paramName: string;
+    paramVal: string;
+  }[];
+}
+
 async function handleSave() {
   const labels = store.labels;
   for (const label of labels) {
     if (!label.elementId) continue;
-    const data =
-        await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
-          label.elementId,
-          "Boring Name",
-          label.labels[0]
-        );
+    await window.chrome.webview.postMessage({
+      type: "UpdateParameters",
+      content: JSON.stringify(labels.map((l) => ({
+        elementId: l.elementId,
+        paramName: "Boring Name",
+        paramVal: l.labels[0],
+      })))
+    });
   }
 }
 
