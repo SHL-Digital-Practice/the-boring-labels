@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center w-screen h-screen overflow-y-scroll">
     <div
       class="absolute top-0 h-[300px] w-full bg-gradient-to-b from-green-100 to-white -z-10"
     />
@@ -11,16 +11,17 @@
         :items="candidateLabelSets"
         @selected="(e) => selectList(e.name)"
       />
-      <!-- <Combobox
-        :label="'Parameter'"
-        :items="['P&W Benchmark']"
-        @selected="selectList"
-      /> -->
-      <link rel="manifest" href="manifest.json" />
-      <div class="flex flex-col">
+
+      <div
+        v-if="isLoading"
+        class="w-full h-40 flex items-center justify-center"
+      >
+        <TheLoader />
+      </div>
+      <div class="flex flex-col" v-else>
         <div
           v-for="(items, key) of labelGroups"
-          class="border-b-2 border-slate-200 w-full py-4 px-4"
+          class="border-b border-gray-200 w-full py-4 px-4"
         >
           <div
             class="flex w-full justify-between"
@@ -70,6 +71,7 @@
 </template>
 <script lang="ts" setup>
 import TheHeader from "./components/TheHeader.vue";
+import TheLoader from "./components/TheLoader.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { pwBenchmark } from "./constats/pw-benchmark";
 import { rooms } from "./constats/rooms";
@@ -94,11 +96,15 @@ const labels = computed(() => store.labels);
 
 const labelGroups = ref("");
 
+const isLoading = ref(false);
+
 const expanded = ref("");
 const list = ref("placeholfer");
 
 async function getLabels(item: any) {
   console.log(candidateLabels.value);
+
+  isLoading.value = true;
 
   store.labels = [];
 
@@ -136,6 +142,7 @@ async function getLabels(item: any) {
   }
 
   await Promise.all(promises);
+  isLoading.value = false;
 
   if (!labels.value.length) return;
 
