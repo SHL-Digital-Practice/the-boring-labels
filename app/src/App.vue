@@ -82,24 +82,15 @@ async function getLabels() {
   const rooms: string[] = await revit.getRoomNames();
   console.log(rooms)
 
-  for (const (k) of rooms) {
-    if 
+  for (const room of rooms) {
     const promise = store.fetchLabels({
       inputs: room,
       parameters: { candidate_labels: candidateLabels.value },
     });
     promises.push(promise);
   }
-  // for (let i = 0; i < rooms.length; i++) {
-    // const promise = store.fetchLabels({
-    //   inputs: rooms[i],
-    //   parameters: { candidate_labels: candidateLabels.value },
-    // });
 
-  //   promises.push(promise);
-  // }
-
-  // await Promise.all(promises);
+  await Promise.all(promises);
   const grouped = group(labels.value, (l) => l.labels[0]);
 
   labelGroups.value = grouped;
