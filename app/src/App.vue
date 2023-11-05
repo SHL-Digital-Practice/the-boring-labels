@@ -6,7 +6,7 @@
       <Combobox
         :label="'Boring List'"
         :items="candidateLabelSets"
-        @selected="selectList"
+        @selected="(e) => selectList(e.name)"
       />
       <!-- <Combobox
         :label="'Parameter'"
@@ -95,6 +95,8 @@ const expanded = ref("");
 const list = ref("placeholfer");
 
 async function getLabels(item: any) {
+  console.log(candidateLabels.value);
+
   store.labels = [];
 
   const rooms = await revit.getRoomNames();
@@ -139,11 +141,22 @@ async function getLabels(item: any) {
   labelGroups.value = grouped;
 }
 
+function selectList(item: string) {
+  console.log(item);
+
+  candidateLabels.value = selectCandidateLabels(item);
+  getLabels(item);
+}
+
 function selectCandidateLabels(item: string) {
   if (item === "P&W Benchmark") {
     return pwBenchmark;
   } else if (item === "ASHRAE 2019 Large Office") {
+    console.log("dsadssdasdadsasdadsa");
+
     return largeOffice;
+  } else {
+    return pwBenchmark;
   }
 }
 
