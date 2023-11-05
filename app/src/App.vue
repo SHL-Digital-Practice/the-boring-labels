@@ -57,12 +57,6 @@
           </Collapse>
         </div>
         <div class="w-full justify-end flex p-4">
-          <!-- <button
-            @click="getLabels"
-            class="border-2 rounded-lg px-2 border-slate-200"
-          >
-            Ask
-          </button> -->
           <button
             @click="handleSave"
             class="bg-green-950 text-gray-100 font-semibold rounded-lg px-4 py-2"
