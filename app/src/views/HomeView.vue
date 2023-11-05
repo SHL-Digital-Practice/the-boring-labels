@@ -5,6 +5,7 @@
     />
     <div class="max-w-md w-full">
       <TheHeader class="pb-4" />
+      <!-- <TheDropzone /> -->
 
       <Combobox
         :label="'Boring List'"
@@ -70,14 +71,13 @@
               </div>
             </Collapse>
           </div>
-          <div>
+          <div class="w-full justify-end flex p-4">
             <button
-              @click="getLabels"
-              class="border-2 rounded-lg px-2 border-slate-200"
+              @click="handleSave"
+              class="bg-green-950 text-gray-100 font-semibold rounded-lg px-2 text-sm py-1"
             >
-              Ask
+              Save
             </button>
-            <button @click="handleSave">Save</button>
           </div>
         </div>
       </Transition>
@@ -99,6 +99,7 @@ import { useRevitStore } from "@/stores/revit";
 import Dropdown from "@/components/Dropdown.vue";
 import { largeOffice } from "@/constats/ashrae-2019-large-office";
 import TheLoader from "@/components/TheLoader.vue";
+import TheDropzone from "@/components/TheDropzone.vue";
 
 const store = useLabelsStore();
 const revit = useRevitStore();
