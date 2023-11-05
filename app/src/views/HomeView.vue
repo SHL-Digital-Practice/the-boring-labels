@@ -119,28 +119,35 @@ async function getLabels(item: any) {
   const promises = [];
 
   let count = 0;
+  
 
   if (!window.chrome.webview && rooms) {
-    for (const room of rooms) {
-      const promise = store.fetchLabels(
-        {
-          source_sentence: room.Name,
-          sentences: candidateLabels.value,
-        },
-        room.ElementId
-      );
-      count++;
-
-      promises.push(promise);
-    }
-  } else {
-    for (let i = 0; i < inputs.value.length; i++) {
+    console.log("on the web")
+    
+      for (let i = 0; i < inputs.value.length; i++) {
       const promise = store.fetchLabels(
         {
           source_sentence: inputs.value[i],
           sentences: candidateLabels.value,
         },
         count.toString()
+      );
+      count++;
+
+      promises.push(promise);
+    
+    }
+  } else {
+    console.log("in revit")
+    for (const room of rooms) {
+      console.log("room", room)
+      console.log("candidate labels", candidateLabels.value)
+      const promise = store.fetchLabels(
+        {
+          source_sentence: room.Name,
+          sentences: candidateLabels.value,
+        },
+        room.ElementId
       );
       count++;
 
