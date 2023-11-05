@@ -1,7 +1,10 @@
 <template>
   <div class="flex justify-center">
+    <div
+      class="absolute top-0 h-[300px] w-full bg-gradient-to-b from-green-100 to-white -z-10"
+    />
     <div class="max-w-md w-full">
-      <h1 class="text-3xl font-extrabold text-slate-500">Boar Ring</h1>
+      <TheHeader class="pb-4" />
 
       <Combobox
         :label="'Boring List'"
@@ -67,6 +70,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import TheHeader from "./components/TheHeader.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { pwBenchmark } from "./constats/pw-benchmark";
 import { rooms } from "./constats/rooms";
@@ -142,10 +146,8 @@ async function getLabels(item: any) {
 }
 
 function selectList(item: string) {
-  console.log(item);
-
   candidateLabels.value = selectCandidateLabels(item);
-  getLabels(item);
+  getLabels(candidateLabels.value);
 }
 
 function selectCandidateLabels(item: string) {
@@ -194,9 +196,11 @@ async function handleSave() {
 }
 
 onMounted(async () => {
-  if (!window.chrome.webview) return;
-
-  await revit.getRoomNames();
+  if (!window.chrome.webview) {
+    getLabels(candidateLabels.value);
+  } else {
+    await revit.getRoomNames();
+  }
 });
 </script>
 ./constats/pw-benchmark
