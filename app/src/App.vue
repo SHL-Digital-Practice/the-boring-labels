@@ -16,7 +16,7 @@
       <link rel="manifest" href="manifest.json" />
       <div class="flex flex-col">
         <div
-          v-for="(items, key, index) of labelGroups"
+          v-for="(items, key) of labelGroups"
           class="border-b-2 border-slate-200 w-full py-4 px-4"
         >
           <div
@@ -28,7 +28,10 @@
 
               {{ items.length }}
             </div>
-            <Pill :label="key.toString()" />
+            <div class="bg-green-200 text-green-800 rounded-full px-2">
+              <!-- {{ label.labels[0] }} -->
+              {{ key }}
+            </div>
             <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
           </div>
           <Collapse :when="expanded === key.toString()" class="v-collapse">
@@ -57,13 +60,16 @@
           >
             Ask
           </button>
+          <button @click="handleSave">
+            Save
+          </button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { spaces as spacesPw } from "./constats/spaces-pw";
 import { rooms } from "./constats/rooms";
 import { useLabelsStore } from "./stores/labels";
@@ -71,10 +77,10 @@ import Combobox from "./components/Combobox.vue";
 import { group } from "radash";
 import { Collapse } from "vue-collapsed";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
-import Dropdown from "./components/Dropdown.vue";
-import Pill from "./components/Pill.vue";
+import { useRevitStore } from "./stores/revit";
 
 const store = useLabelsStore();
+const revit = useRevitStore();
 
 const candidateLabels = computed(() => spacesPw);
 const inputs = computed(() => rooms);
@@ -89,13 +95,18 @@ async function getLabels(item: any) {
   store.labels = [];
   const promises = [];
 
-  for (let i = 0; i < inputs.value.length; i++) {
-    const promise = store.fetchLabels({
-      source_sentence: inputs.value[i],
-      sentences: candidateLabels.value,
-    });
+  const rooms = await revit.getRoomNames();
+  console.log(rooms)
 
+  let count = 0
+  for (const room of rooms) {
+    console.log(room.Name)
+    const promise = store.fetchLabels({
+      source_sentence: room.Name,
+      sentences: candidateLabels.value,
+    }, room.ElementId);
     promises.push(promise);
+    count++
   }
 
   await Promise.all(promises);
@@ -129,4 +140,21 @@ function expand(key: string) {
   }
   expanded.value = key;
 }
+
+async function handleSave() {
+  const labels = store.labels;
+  for (const label of labels) {
+    if (!label.elementId) continue;
+    const data =
+        await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
+          label.elementId,
+          "Boring Name",
+          label.labels[0]
+        );
+  }
+}
+
+onMounted(async () => {
+  await revit.getRoomNames();
+});
 </script>
