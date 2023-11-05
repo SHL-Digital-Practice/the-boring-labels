@@ -53,7 +53,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { spaces as spacesPw } from "./constats/spaces-pw";
 import { rooms } from "./constats/rooms";
 import { useLabelsStore } from "./stores/labels";
@@ -61,8 +61,10 @@ import Combobox from "./components/Combobox.vue";
 import { group } from "radash";
 import { Collapse } from "vue-collapsed";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import { useRevitStore } from "./stores/revit";
 
 const store = useLabelsStore();
+const revit = useRevitStore();
 
 const candidateLabels = computed(() => spacesPw);
 const inputs = computed(() => rooms);
@@ -77,16 +79,27 @@ async function getLabels() {
   store.labels = [];
   const promises = [];
 
-  for (let i = 0; i < inputs.value.length; i++) {
+  const rooms: string[] = await revit.getRoomNames();
+  console.log(rooms)
+
+  for (const (k) of rooms) {
+    if 
     const promise = store.fetchLabels({
-      inputs: inputs.value[i],
+      inputs: room,
       parameters: { candidate_labels: candidateLabels.value },
     });
-
     promises.push(promise);
   }
+  // for (let i = 0; i < rooms.length; i++) {
+    // const promise = store.fetchLabels({
+    //   inputs: rooms[i],
+    //   parameters: { candidate_labels: candidateLabels.value },
+    // });
 
-  await Promise.all(promises);
+  //   promises.push(promise);
+  // }
+
+  // await Promise.all(promises);
   const grouped = group(labels.value, (l) => l.labels[0]);
 
   labelGroups.value = grouped;
@@ -105,4 +118,8 @@ function expand(key: string) {
   }
   expanded.value = key;
 }
+
+onMounted(async () => {
+  await revit.getRoomNames();
+});
 </script>
