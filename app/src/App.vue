@@ -102,8 +102,6 @@ async function getLabels(item: any) {
 
   if (!labels.value.length) return;
 
-  console.log(labels.value);
-
   const grouped = group(labels.value, (l) => l.labels[0]);
 
   labelGroups.value = grouped;

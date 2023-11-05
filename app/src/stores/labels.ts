@@ -37,8 +37,6 @@ export const useLabelsStore = defineStore("labels", () => {
     sentences: string[];
   }) {
     try {
-      console.log(inputs);
-
       const response = await fetch(
         "https://api-inference.huggingface.co/models/sentence-transformers/all-MiniLM-L6-v2",
         {
@@ -57,8 +55,6 @@ export const useLabelsStore = defineStore("labels", () => {
         labels: inputs.sentences,
         scores: data,
       } as ResponseData;
-
-      console.log(responseData);
 
       // Create an array of objects with labels and scores
       const labelScores = responseData.labels.map((label, index) => {

@@ -1,5 +1,13 @@
 <template>
-  <template v-if="!coefficient || coefficient > 0.6">
+  <template v-if="!coefficient">
+    <div
+      @click="select(label)"
+      class="cursor-pointer bg-slate-200 text-slate-800 rounded-full px-2 w-32 truncate"
+    >
+      {{ label }}
+    </div>
+  </template>
+  <template v-else-if="coefficient > 0.6">
     <div
       @click="select(label)"
       class="cursor-pointer bg-green-200 text-green-800 rounded-full px-2 w-32 truncate"
@@ -7,7 +15,8 @@
       {{ label }}
     </div>
   </template>
-  <template v-else-if="coefficient > 0.2">
+
+  <template v-else-if="coefficient > 0.4">
     <div
       @click="select(label)"
       class="cursor-pointer bg-yellow-200 text-yellow-800 rounded-full px-2 w-32 truncate"
