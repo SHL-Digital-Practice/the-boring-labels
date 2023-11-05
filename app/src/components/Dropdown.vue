@@ -5,7 +5,7 @@
         <Pill
           :coefficient="items[0].coefficient"
           :label="items[0].name"
-          class="text-left"
+          class="text-left text-xs px-3 py-1"
         />
         <ChevronDownIcon
           class="-mr-1 h-5 w-5 top-1 text-green-800 absolute right-2"
