@@ -16,7 +16,7 @@
       <link rel="manifest" href="manifest.json" />
       <div class="flex flex-col">
         <div
-          v-for="(items, key) of labelGroups"
+          v-for="(items, key, index) of labelGroups"
           class="border-b-2 border-slate-200 w-full py-4 px-4"
         >
           <div
@@ -28,15 +28,36 @@
 
               {{ items.length }}
             </div>
-            <div class="bg-green-200 text-green-800 rounded-full px-2">
-              <!-- {{ label.labels[0] }} -->
-              {{ key }}
-            </div>
+            <Pill :label="key.toString()" />
             <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
           </div>
           <Collapse :when="expanded === key.toString()" class="v-collapse">
-            <div class="" v-for="item in items">
-              {{ item.sequence }}
+            <div
+              v-for="item in items"
+              class="flex justify-between w-full space-y-2 items-center"
+            >
+              <p class="flex-none truncate w-3/5">
+                {{ item.sequence }}
+              </p>
+              <div class="flex space-x-2">
+                <p class="text-slate-300">
+                  {{ Math.round(item.scores[0] * 100) }}%
+                </p>
+                <Dropdown
+                  :label="key.toString()"
+                  :items="
+                    [...item.labels]
+                      .map((l) => ({
+                        name: l,
+                        coefficient: item.scores[index],
+                      }))
+                      .splice(0, 3)
+                  "
+                  class="w-32"
+                />
+              </div>
+
+              <!-- add a dropdown here -->
             </div>
           </Collapse>
         </div>
@@ -61,6 +82,8 @@ import Combobox from "./components/Combobox.vue";
 import { group } from "radash";
 import { Collapse } from "vue-collapsed";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import Dropdown from "./components/Dropdown.vue";
+import Pill from "./components/Pill.vue";
 
 const store = useLabelsStore();
 
@@ -87,6 +110,9 @@ async function getLabels() {
   }
 
   await Promise.all(promises);
+
+  if (!labels.value.length) return;
+
   const grouped = group(labels.value, (l) => l.labels[0]);
 
   labelGroups.value = grouped;
