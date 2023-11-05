@@ -1,5 +1,5 @@
 <template>
-  <template v-if="!coefficient">
+  <template v-if="!coefficient" class="text-xs">
     <div
       @click="select(label)"
       class="cursor-pointer bg-slate-200 text-slate-800 rounded-full px-2 w-32 truncate"
