@@ -12,60 +12,66 @@
         @selected="(e) => selectList(e.name)"
       />
 
-      <div
-        v-if="isLoading"
-        class="w-full h-40 flex items-center justify-center"
+      <Transition
+        enter-active-class="transition ease-out duration-1000"
+        enter-from-class="transform opacity-0 scale-95"
+        enter-to-class="transform opacity-100 scale-100"
       >
-        <TheLoader />
-      </div>
-      <div class="flex flex-col" v-else>
         <div
-          v-for="(items, key) of labelGroups"
-          class="border-b border-gray-200 w-full py-4 px-4"
+          v-if="isLoading"
+          class="w-full h-full flex items-center justify-center"
         >
+          <TheLoader />
+        </div>
+        <div class="flex flex-col" v-else>
           <div
-            class="flex w-full justify-between"
-            @click.stop="expand(key.toString())"
+            v-for="(items, key) of labelGroups"
+            class="border-b border-gray-200 w-full py-4 px-4"
           >
-            <div class="flex items-center">
-              <ChevronDownIcon class="h-5" />
-
-              {{ items.length }}
-            </div>
-            <div class="bg-gray-200 text-gray-800 rounded-full px-2">
-              <!-- {{ label.labels[0] }} -->
-              {{ key }}
-            </div>
-            <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
-          </div>
-          <Collapse :when="expanded === key.toString()" class="v-collapse">
             <div
-              v-for="item in items"
-              class="flex justify-between w-full space-y-2 items-center"
+              class="flex w-full justify-between"
+              @click.stop="expand(key.toString())"
             >
-              <p class="flex-none truncate w-[55%]">
-                {{ item.sequence }}
-              </p>
-              <div class="flex space-x-2 w-full justify-between">
-                <p class="text-slate-300 text-sm">
-                  {{ Math.round(item.scores[0] * 100) }}%
-                </p>
-                <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
-              </div>
+              <div class="flex items-center">
+                <ChevronDownIcon class="h-5" />
 
-              <!-- add a dropdown here -->
+                {{ items.length }}
+              </div>
+              <div class="bg-gray-200 text-gray-800 rounded-full px-2">
+                <!-- {{ label.labels[0] }} -->
+                {{ key }}
+              </div>
+              <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
             </div>
-          </Collapse>
+            <Collapse :when="expanded === key.toString()" class="v-collapse">
+              <div
+                v-for="item in items"
+                class="flex justify-between w-full space-y-2 items-center"
+              >
+                <p class="flex-none truncate w-[55%]">
+                  {{ item.sequence }}
+                </p>
+                <div class="flex space-x-2 w-full justify-between">
+                  <p class="text-slate-300 text-sm">
+                    {{ Math.round(item.scores[0] * 100) }}%
+                  </p>
+                  <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
+                </div>
+
+                <!-- add a dropdown here -->
+              </div>
+            </Collapse>
+          </div>
+          <div class="w-full justify-end flex p-4">
+            <button
+              @click="handleSave"
+              class="bg-green-950 text-gray-100 font-semibold rounded-lg px-4 py-2"
+            >
+              Save
+            </button>
+          </div>
         </div>
-        <div class="w-full justify-end flex p-4">
-          <button
-            @click="handleSave"
-            class="bg-green-950 text-gray-100 font-semibold rounded-lg px-4 py-2"
-          >
-            Save
-          </button>
-        </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
