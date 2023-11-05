@@ -47,6 +47,9 @@
           >
             Ask
           </button>
+          <button @click="handleSave">
+            Save
+          </button>
         </div>
       </div>
     </div>
@@ -79,12 +82,12 @@ async function getLabels() {
   store.labels = [];
   const promises = [];
 
-  const rooms: string[] = await revit.getRoomNames();
+  const rooms = await revit.getRoomNames();
   console.log(rooms)
 
   for (const room of rooms) {
     const promise = store.fetchLabels({
-      inputs: room,
+      inputs: room.Name,
       parameters: { candidate_labels: candidateLabels.value },
     });
     promises.push(promise);
@@ -108,6 +111,17 @@ function expand(key: string) {
     return;
   }
   expanded.value = key;
+}
+
+async function handleSave() {
+  // const data =
+  //       await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
+  //         this.roomsToUpdate[i][0],
+  //         this.roomsToUpdate[i][1],
+  //         this.roomsToUpdate[i][2],
+  //       );webview.chrome.hostObjects.roomsBridge.changeParameterService({
+
+  // })
 }
 
 onMounted(async () => {

@@ -6,6 +6,9 @@ declare global {
             boringBridge: {
                 GetAllRoomsNames(): Promise<string>;
             };
+            roomsBridge: {
+              ChangeParameterValue(elementId: string, parameterName: string, newValue: string): Promise<string>;
+            }
           };
         };
       };
