@@ -2,6 +2,7 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
 export interface ResponseData {
+  elementId?: string;
   sequence: string;
   labels: string[];
   scores: number[];
@@ -35,7 +36,7 @@ export const useLabelsStore = defineStore("labels", () => {
   async function fetchLabels(inputs: {
     source_sentence: string;
     sentences: string[];
-  }) {
+  }, elementId: string) {
     try {
       console.log(inputs);
 
@@ -53,6 +54,7 @@ export const useLabelsStore = defineStore("labels", () => {
       const data = await response.json();
 
       const responseData = {
+        elementId: elementId,
         sequence: inputs.source_sentence,
         labels: inputs.sentences,
         scores: data,

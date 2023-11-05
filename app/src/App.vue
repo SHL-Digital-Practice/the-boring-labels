@@ -98,12 +98,15 @@ async function getLabels(item: any) {
   const rooms = await revit.getRoomNames();
   console.log(rooms)
 
+  let count = 0
   for (const room of rooms) {
+    console.log(room.Name)
     const promise = store.fetchLabels({
-      source_sentence: inputs.value[i],
+      source_sentence: room.Name,
       sentences: candidateLabels.value,
-    });
+    }, room.ElementId);
     promises.push(promise);
+    count++
   }
 
   await Promise.all(promises);
@@ -141,14 +144,16 @@ function expand(key: string) {
 }
 
 async function handleSave() {
-  // const data =
-  //       await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
-  //         this.roomsToUpdate[i][0],
-  //         this.roomsToUpdate[i][1],
-  //         this.roomsToUpdate[i][2],
-  //       );webview.chrome.hostObjects.roomsBridge.changeParameterService({
-
-  // })
+  const labels = store.labels;
+  for (const label of labels) {
+    if (!label.elementId) continue;
+    const data =
+        await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
+          label.elementId,
+          "Boring Name",
+          label.labels[0]
+        );
+  }
 }
 
 onMounted(async () => {
