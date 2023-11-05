@@ -1,5 +1,5 @@
 <template>
-  <div class="flex justify-center">
+  <div class="flex justify-center w-screen h-screen overflow-y-scroll">
     <div
       class="absolute top-0 h-[300px] w-full bg-gradient-to-b from-green-100 to-white -z-10"
     />
@@ -11,69 +11,76 @@
         :items="candidateLabelSets"
         @selected="(e) => selectList(e.name)"
       />
-      <!-- <Combobox
-        :label="'Parameter'"
-        :items="['P&W Benchmark']"
-        @selected="selectList"
-      /> -->
-      <link rel="manifest" href="manifest.json" />
-      <div class="flex flex-col">
-        <div
-          v-for="(items, key) of labelGroups"
-          class="border-b-[1px] border-slate-200 w-full py-3 px-4"
-        >
-          <div
-            class="flex w-full justify-between cursor-pointer"
-            @click.stop="expand(key.toString())"
-          >
-            <div class="flex items-center">
-              <ChevronDownIcon
-                class="h-5 transition-all duration-300"
-                :class="
-                  expanded !== key.toString() ? ['-rotate-90'] : ['rotate-0']
-                "
-              />
-              <div class="text-xs">
-                {{ items.length }}
-              </div>
-            </div>
-            <div
-              class="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-xs"
-            >
-              <!-- {{ label.labels[0] }} -->
-              {{ key }}
-            </div>
-            <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
-          </div>
-          <Collapse :when="expanded === key.toString()" class="v-collapse">
-            <div
-              v-for="item in items"
-              class="flex justify-between w-full space-y-2 items-center"
-            >
-              <p class="flex-none truncate w-[55%]">
-                {{ item.sequence }}
-              </p>
-              <div class="flex space-x-2 w-full justify-between">
-                <p class="text-slate-300 text-xs">
-                  {{ Math.round(item.scores[0] * 100) }}%
-                </p>
-                <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
-              </div>
 
-              <!-- add a dropdown here -->
-            </div>
-          </Collapse>
+      <Transition
+        enter-active-class="transition ease-out duration-1000"
+        enter-from-class="transform opacity-0 scale-95"
+        enter-to-class="transform opacity-100 scale-100"
+      >
+        <div
+          v-if="isLoading"
+          class="w-full h-full flex items-center justify-center"
+        >
+          <TheLoader />
         </div>
-        <div>
-          <button
-            @click="getLabels"
-            class="border-2 rounded-lg px-2 border-slate-200"
+        <div class="flex flex-col" v-else>
+          <div
+            v-for="(items, key) of labelGroups"
+            class="border-b-[1px] border-slate-200 w-full py-3 px-4"
           >
-            Ask
-          </button>
-          <button @click="handleSave">Save</button>
+            <div
+              class="flex w-full justify-between cursor-pointer"
+              @click.stop="expand(key.toString())"
+            >
+              <div class="flex items-center">
+                <ChevronDownIcon
+                  class="h-5 transition-all duration-300"
+                  :class="
+                    expanded !== key.toString() ? ['-rotate-90'] : ['rotate-0']
+                  "
+                />
+                <div class="text-xs">
+                  {{ items.length }}
+                </div>
+              </div>
+              <div
+                class="bg-gray-200 text-gray-800 rounded-full px-3 py-1 text-xs"
+              >
+                <!-- {{ label.labels[0] }} -->
+                {{ key }}
+              </div>
+              <!-- <div>{{ [...label.labels].splice(0, 3) }}</div> -->
+            </div>
+            <Collapse :when="expanded === key.toString()" class="v-collapse">
+              <div
+                v-for="item in items"
+                class="flex justify-between w-full space-y-2 items-center"
+              >
+                <p class="flex-none truncate w-[55%]">
+                  {{ item.sequence }}
+                </p>
+                <div class="flex space-x-2 w-full justify-between">
+                  <p class="text-slate-300 text-xs">
+                    {{ Math.round(item.scores[0] * 100) }}%
+                  </p>
+                  <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
+                </div>
+
+                <!-- add a dropdown here -->
+              </div>
+            </Collapse>
+          </div>
+          <div>
+            <button
+              @click="getLabels"
+              class="border-2 rounded-lg px-2 border-slate-200"
+            >
+              Ask
+            </button>
+            <button @click="handleSave">Save</button>
+          </div>
         </div>
-      </div>
+      </Transition>
     </div>
   </div>
 </template>
@@ -91,6 +98,7 @@ import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { useRevitStore } from "@/stores/revit";
 import Dropdown from "@/components/Dropdown.vue";
 import { largeOffice } from "@/constats/ashrae-2019-large-office";
+import TheLoader from "@/components/TheLoader.vue";
 
 const store = useLabelsStore();
 const revit = useRevitStore();
@@ -103,12 +111,15 @@ const inputs = computed(() => rooms);
 const labels = computed(() => store.labels);
 
 const labelGroups = ref("");
-
 const expanded = ref("");
+const isLoading = ref(false);
+
 const list = ref("placeholfer");
 
 async function getLabels(item: any) {
   console.log(candidateLabels.value);
+
+  isLoading.value = true;
 
   store.labels = [];
 
@@ -146,6 +157,8 @@ async function getLabels(item: any) {
   }
 
   await Promise.all(promises);
+
+  isLoading.value = false;
 
   if (!labels.value.length) return;
 
