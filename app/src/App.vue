@@ -6,6 +6,7 @@
     <div class="max-w-md w-full">
       <TheHeader class="pb-4" />
 
+      <TheDropzone />
       <Combobox
         :label="'Boring List'"
         :items="candidateLabelSets"
@@ -78,6 +79,7 @@
 <script lang="ts" setup>
 import TheHeader from "./components/TheHeader.vue";
 import TheLoader from "./components/TheLoader.vue";
+import TheDropzone from "./components/TheDropzone.vue";
 import { computed, onMounted, ref, watch } from "vue";
 import { pwBenchmark } from "./constats/pw-benchmark";
 import { rooms } from "./constats/rooms";
