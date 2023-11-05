@@ -8,11 +8,11 @@
         :items="['P&W Benchmark']"
         @selected="selectList"
       />
-      <Combobox
+      <!-- <Combobox
         :label="'Parameter'"
         :items="['P&W Benchmark']"
         @selected="selectList"
-      />
+      /> -->
       <link rel="manifest" href="manifest.json" />
       <div class="flex flex-col">
         <div
@@ -28,7 +28,7 @@
 
               {{ items.length }}
             </div>
-            <div class="bg-green-200 text-green-800 rounded-full px-2">
+            <div class="bg-gray-200 text-gray-800 rounded-full px-2">
               <!-- {{ label.labels[0] }} -->
               {{ key }}
             </div>
@@ -39,14 +39,14 @@
               v-for="item in items"
               class="flex justify-between w-full space-y-2 items-center"
             >
-              <p class="flex-none truncate w-3/5">
+              <p class="flex-none truncate w-[55%]">
                 {{ item.sequence }}
               </p>
-              <div class="flex space-x-2">
-                <p class="text-slate-300">
+              <div class="flex space-x-2 w-full justify-between">
+                <p class="text-slate-300 text-sm">
                   {{ Math.round(item.scores[0] * 100) }}%
                 </p>
-                <Dropdown :items="mapLabels(item)" class="w-32" />
+                <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
               </div>
 
               <!-- add a dropdown here -->
@@ -60,9 +60,7 @@
           >
             Ask
           </button>
-          <button @click="handleSave">
-            Save
-          </button>
+          <button @click="handleSave">Save</button>
         </div>
       </div>
     </div>
@@ -78,6 +76,7 @@ import { group } from "radash";
 import { Collapse } from "vue-collapsed";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import { useRevitStore } from "./stores/revit";
+import Dropdown from "./components/Dropdown.vue";
 
 const store = useLabelsStore();
 const revit = useRevitStore();
@@ -93,20 +92,38 @@ const list = ref("placeholfer");
 
 async function getLabels(item: any) {
   store.labels = [];
-  const promises = [];
 
   const rooms = await revit.getRoomNames();
-  console.log(rooms)
+  const promises = [];
 
-  let count = 0
-  for (const room of rooms) {
-    console.log(room.Name)
-    const promise = store.fetchLabels({
-      source_sentence: room.Name,
-      sentences: candidateLabels.value,
-    }, room.ElementId);
-    promises.push(promise);
-    count++
+  let count = 0;
+
+  if (!window.chrome.webview && rooms) {
+    for (const room of rooms) {
+      const promise = store.fetchLabels(
+        {
+          source_sentence: room.Name,
+          sentences: candidateLabels.value,
+        },
+        room.ElementId
+      );
+      count++;
+
+      promises.push(promise);
+    }
+  } else {
+    for (let i = 0; i < inputs.value.length; i++) {
+      const promise = store.fetchLabels(
+        {
+          source_sentence: inputs.value[i],
+          sentences: candidateLabels.value,
+        },
+        count.toString()
+      );
+      count++;
+
+      promises.push(promise);
+    }
   }
 
   await Promise.all(promises);
@@ -127,6 +144,7 @@ function mapLabels(item: any) {
     .map((l) => ({
       name: l,
       coefficient: item.scores[item.labels.indexOf(l)],
+      elementId: item.elementId,
     }))
     .slice(0, 3);
 
@@ -146,15 +164,17 @@ async function handleSave() {
   for (const label of labels) {
     if (!label.elementId) continue;
     const data =
-        await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
-          label.elementId,
-          "Boring Name",
-          label.labels[0]
-        );
+      await window.chrome.webview.hostObjects.roomsBridge.ChangeParameterValue(
+        label.elementId,
+        "Boring Name",
+        label.labels[0]
+      );
   }
 }
 
 onMounted(async () => {
+  if (!window.chrome.webview) return;
+
   await revit.getRoomNames();
 });
 </script>
