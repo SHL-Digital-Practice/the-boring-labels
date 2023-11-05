@@ -1,15 +1,11 @@
 <template>
   <Menu as="div" class="relative inline-block">
     <div>
-      <MenuButton>
+      <MenuButton class="flex">
         <Pill
           :coefficient="items[0].coefficient"
           :label="items[0].name"
           class="text-left text-xs px-3 py-1"
-        />
-        <ChevronDownIcon
-          class="-mr-1 h-5 w-5 top-1 text-green-800 absolute right-2"
-          aria-hidden="true"
         />
       </MenuButton>
     </div>
@@ -44,7 +40,6 @@
 
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
-import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import Pill from "./Pill.vue";
 import { useLabelsStore } from "@/stores/labels";
 

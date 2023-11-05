@@ -57,7 +57,10 @@
                 <p class="text-slate-300 text-xs">
                   {{ Math.round(item.scores[0] * 100) }}%
                 </p>
-                <Dropdown :items="mapLabels(item)" class="w-32 flex-none" />
+                <Dropdown
+                  :items="mapLabels(item)"
+                  class="flex-grow flex justify-end"
+                />
               </div>
 
               <!-- add a dropdown here -->
