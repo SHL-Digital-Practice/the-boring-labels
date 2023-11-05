@@ -7,7 +7,7 @@
       {{ label }}
     </div>
   </template>
-  <template v-else-if="coefficient > 0.6">
+  <template v-else-if="coefficient > 0.4">
     <div
       @click="select(label)"
       class="cursor-pointer bg-green-200 text-green-800 rounded-full px-2 w-32 truncate"
@@ -16,7 +16,7 @@
     </div>
   </template>
 
-  <template v-else-if="coefficient > 0.4">
+  <template v-else-if="coefficient > 0.3">
     <div
       @click="select(label)"
       class="cursor-pointer bg-yellow-200 text-yellow-800 rounded-full px-2 w-32 truncate"

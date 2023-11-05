@@ -1,10 +1,8 @@
 <template>
   <Menu as="div" class="relative inline-block">
     <div>
-      <MenuButton
-        class="bg-green-200 text-green-800 rounded-full px-2 w-32 truncate absolute"
-      >
-        {{ items[0].name }}
+      <MenuButton>
+        <Pill :coefficient="items[0].coefficient" :label="items[0].name" />
         <ChevronDownIcon
           class="-mr-1 h-5 w-5 top-1 text-green-800 absolute right-2"
           aria-hidden="true"
@@ -21,7 +19,7 @@
       leave-to-class="transform opacity-0 scale-95"
     >
       <MenuItems
-        class="absolute right-0 top-7 z-10 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 top-7 z-10 w-40 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1" v-for="item in items">
           <div>
@@ -41,6 +39,7 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
 import Pill from "./Pill.vue";
+import { useLabelsStore } from "@/stores/labels";
 
 const props = defineProps<{
   items: {
@@ -49,5 +48,10 @@ const props = defineProps<{
   }[];
 }>();
 
-function updateLabel(item: string) {}
+const store = useLabelsStore();
+
+function updateLabel(item: string) {
+  //   store.labels.find();
+  console.log(item);
+}
 </script>
