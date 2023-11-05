@@ -4,10 +4,9 @@
       <MenuButton
         class="bg-green-200 text-green-800 rounded-full px-2 w-32 truncate absolute"
       >
-        {{ label }}
-        dsasd
+        {{ items[0].name }}
         <ChevronDownIcon
-          class="-mr-1 h-5 w-5 text-gray-400 absolute right-1.5 bg-white"
+          class="-mr-1 h-5 w-5 top-1 text-green-800 absolute right-2"
           aria-hidden="true"
         />
       </MenuButton>
@@ -25,28 +24,13 @@
         class="absolute right-0 top-7 z-10 w-32 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="py-1" v-for="item in items">
-          <MenuItem v-if="Number(item.coefficient) > 0.5">
-            <div
-              class="rounded-full w-full truncate bg-green-200 text-center text-xs font-semibold"
-            >
-              <!-- {{ item.coefficient }} -->
-              {{ item.name }}
-            </div>
-          </MenuItem>
-          <MenuItem v-else>
-            <div
-              class="rounded-full w-full truncate bg-yellow-200 text-center text-xs font-semibold"
-            >
-              {{ item.name }}
-            </div>
-          </MenuItem>
-          <!-- <MenuItem >
-            <div
-              class="rounded-full w-full truncate bg-green-200 text-center text-xs font-semibold"
-            >
-              {{ item.name }}
-            </div>
-          </MenuItem> -->
+          <div>
+            <Pill
+              :label="item.name"
+              :coefficient="item.coefficient"
+              @selected="updateLabel"
+            />
+          </div>
         </div>
       </MenuItems>
     </transition>
@@ -56,9 +40,14 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/vue";
 import { ChevronDownIcon } from "@heroicons/vue/20/solid";
+import Pill from "./Pill.vue";
 
 const props = defineProps<{
-  label: string;
-  items: { name: string; coefficient: number }[];
+  items: {
+    name: string;
+    coefficient: number;
+  }[];
 }>();
+
+function updateLabel(item: string) {}
 </script>

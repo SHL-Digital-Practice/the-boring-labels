@@ -43,18 +43,7 @@
                 <p class="text-slate-300">
                   {{ Math.round(item.scores[0] * 100) }}%
                 </p>
-                <Dropdown
-                  :label="key.toString()"
-                  :items="
-                    [...item.labels]
-                      .map((l) => ({
-                        name: l,
-                        coefficient: item.scores[index],
-                      }))
-                      .splice(0, 3)
-                  "
-                  class="w-32"
-                />
+                <Dropdown :items="mapLabels(item)" class="w-32" />
               </div>
 
               <!-- add a dropdown here -->
@@ -96,7 +85,7 @@ const labelGroups = ref("");
 const expanded = ref("");
 const list = ref("placeholfer");
 
-async function getLabels() {
+async function getLabels(item: any) {
   store.labels = [];
   const promises = [];
 
@@ -116,12 +105,21 @@ async function getLabels() {
   const grouped = group(labels.value, (l) => l.labels[0]);
 
   labelGroups.value = grouped;
-
-  console.log("groupedLabels", labelGroups.value);
 }
 
 function selectList(item: string) {
   list.value = item;
+}
+
+function mapLabels(item: any) {
+  const items = item.labels
+    .map((l) => ({
+      name: l,
+      coefficient: item.scores[item.labels.indexOf(l)],
+    }))
+    .slice(0, 3);
+
+  return items;
 }
 
 function expand(key: string) {
