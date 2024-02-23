@@ -4,7 +4,7 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RevitVersion>2023</RevitVersion>
-    <Version>0.0.1</Version>
+    <Version>0.0.2</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\TheBoringApp\$(Version)\$(RevitVersion)\</OutputPath>
@@ -21,6 +21,10 @@
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
     <Copy SourceFiles="@(AssetsSourceFiles)" DestinationFolder="$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="UpdatePackageContentsVersionScript" AfterTargets="CopyCustomContent">
+    <Exec Command="powershell -NoLogo -ExecutionPolicy ByPass -File &quot;$(MSBuildThisFileDirectory)scripts\update-package-contents-version.ps1&quot; -xmlFilePath &quot;$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\PackageContents.xml&quot; -newVersion &quot;$(Version)&quot;" />
   </Target>
 
 </Project>

@@ -7,8 +7,8 @@
   <Components Description="Revit 2023">
     <ComponentEntry
       AppName="TheBoringApp"
-      Version="0.0.1"
-      ModuleName="./Contents/2023/0.0.1/TheBoringApp.addin"
+      Version="THE_BORING_APP_VERSION"
+      ModuleName="./Contents/2023/THE_BORING_APP_VERSION/TheBoringApp.addin"
       />
     <RuntimeRequirements OS="Win64" Platform="Revit" SeriesMin="2023" SeriesMax="2023" />
   </Components>
