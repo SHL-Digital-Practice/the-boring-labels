@@ -1,0 +1,17 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Revit 2023",
+      "type": "clr",
+      "request": "launch",
+      "program": "C:\\Program Files\\Autodesk\\Revit 2024\\Revit.exe",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "dotnet: build"
+    }
+  ]
+}
