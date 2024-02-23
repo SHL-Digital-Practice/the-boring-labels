@@ -7,6 +7,7 @@ namespace TheBoringApp
   {
     public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
     {
+      TaskDialog.Show("The Boring App", "Hello, Revit!");
       return Result.Succeeded;
     }
   }

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage>
+  <Components Description="2023 Parts">
+  <RuntimeRequirements OS="Win64" Platform="Revit" SeriesMin="2023" SeriesMax="2023" />
+  <ComponentEntry
+    AppName="TheBoringApp"
+    AppDescription="The Boring App."
+    Version="0.0.1"
+    ModuleName="./Contents/0.0.1/TheBoringApp.addin"
+    />
+  </Components>
+</ApplicationPackage>
