@@ -4,7 +4,8 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RevitVersion>2023</RevitVersion>
-    <Version>0.0.2</Version>
+    <Version>0.0.1</Version>
+    <AssemblyName>TheBoringApp</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\TheBoringApp\$(Version)\$(RevitVersion)\</OutputPath>
