@@ -3,10 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <RevitVersion>2023</RevitVersion>
     <Version>0.0.1</Version>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <OutputPath>$(MSBuildThisFileDirectory)bin\Contents\TheBoringApp\$(Version)\</OutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\TheBoringApp\$(Version)\$(RevitVersion)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,10 +16,11 @@
 
   <ItemGroup>
     <AssetsSourceFiles Include="assets/**/*.*"/>
+    <None Update="TheBoringApp.addin" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="@(AssetsSourceFiles)" DestinationFolder="$(MSBuildThisFileDirectory)bin\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(AssetsSourceFiles)" DestinationFolder="$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\" SkipUnchangedFiles="true" />
   </Target>
 
 </Project>

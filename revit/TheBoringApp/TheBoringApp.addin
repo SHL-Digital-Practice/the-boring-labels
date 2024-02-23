@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+  <RevitAddIns>
+  <AddIn Type="Application">
+    <Name>The Boring App</Name>
+    <FullClassName>TheBoringApp.App</FullClassName>
+    <Assembly>TheBoringApp.dll</Assembly>
+    <AddInId>a62ccdfe-ef33-4f5a-b81f-77812334266b</AddInId>
+    <VendorId>com.perkinswill</VendorId>
+		<VendorDescription>Perkins and Will + SHL Digital Practice</VendorDescription>
+  </AddIn>
+</RevitAddIns>
