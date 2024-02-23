@@ -8,7 +8,7 @@
     <AssemblyName>TheBoringApp</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-    <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\TheBoringApp\$(Version)\$(RevitVersion)\</OutputPath>
+    <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\$(Version)\$(RevitVersion)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
