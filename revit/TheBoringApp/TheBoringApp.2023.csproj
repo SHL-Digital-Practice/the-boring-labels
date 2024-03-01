@@ -4,11 +4,15 @@
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
     <RevitVersion>2023</RevitVersion>
-    <Version>0.0.3</Version>
+    <Version>0.0.1</Version>
     <AssemblyName>TheBoringApp</AssemblyName>
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\$(Version)\$(RevitVersion)\</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <OutputPath>$(AppData)\Autodesk\ApplicationPlugins\TheBoringApp.bundle\Contents\$(Version)\$(RevitVersion)\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,11 +25,11 @@
   </ItemGroup>
 
   <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
-    <Copy SourceFiles="@(AssetsSourceFiles)" DestinationFolder="$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\" SkipUnchangedFiles="true" />
+    <Copy SourceFiles="@(AssetsSourceFiles)" DestinationFolder="$(OutputPath)\..\..\..\" SkipUnchangedFiles="true" />
   </Target>
 
   <Target Name="UpdatePackageContentsVersionScript" AfterTargets="CopyCustomContent">
-    <Exec Command="powershell -NoLogo -ExecutionPolicy ByPass -File &quot;$(MSBuildThisFileDirectory)scripts\update-package-contents-version.ps1&quot; -xmlFilePath &quot;$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\PackageContents.xml&quot; -newVersion &quot;$(Version)&quot;" />
+    <Exec Command="powershell -NoLogo -ExecutionPolicy ByPass -File &quot;$(MSBuildThisFileDirectory)scripts\update-package-contents-version.ps1&quot; -xmlFilePath &quot;$(OutputPath)..\..\..\PackageContents.xml&quot; -newVersion &quot;$(Version)&quot;" />
   </Target>
 
 </Project>

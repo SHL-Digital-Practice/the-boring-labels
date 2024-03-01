@@ -8,7 +8,7 @@
       "name": "Debug Revit 2023",
       "type": "clr",
       "request": "launch",
-      "program": "C:\\Program Files\\Autodesk\\Revit 2024\\Revit.exe",
+      "program": "C:\\Program Files\\Autodesk\\Revit 2023\\Revit.exe",
       "args": [],
       "cwd": "${workspaceFolder}",
       "preLaunchTask": "dotnet: build"
