@@ -52,7 +52,11 @@ export default function ParameterSelect() {
           </SelectContent>
         </Select>
       ) : (
-        <Input placeholder="Name for the new parameter" required />
+        <Input
+          name="parameter"
+          placeholder="Name for the new parameter"
+          required
+        />
       )}
     </div>
   );
