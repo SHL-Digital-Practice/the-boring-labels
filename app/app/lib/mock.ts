@@ -90,3 +90,16 @@ export const categories: Category[] = [
     name: "Other",
   },
 ];
+
+export const parameters: string[] = [
+  "Area",
+  "Name",
+  "Type",
+  "Description",
+  "Department",
+  "Program",
+  "Function",
+  "Occupancy",
+  "Occupancy Type",
+  "Occupancy Group",
+];

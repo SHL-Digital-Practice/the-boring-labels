@@ -7,8 +7,10 @@ import {
   SelectTrigger,
   SelectValue,
   SelectContent,
+  SelectItem,
 } from "@/components/ui/select";
 import { useState } from "react";
+import { parameters } from "../lib/mock";
 
 export default function ParameterSelect() {
   const [parameterToggle, setParameterToggle] = useState<"existing" | "new">(
@@ -37,11 +39,17 @@ export default function ParameterSelect() {
         </div>
       </RadioGroup>
       {parameterToggle === "existing" ? (
-        <Select required>
+        <Select required name="parameter">
           <SelectTrigger>
             <SelectValue placeholder="Select a parameter" />
           </SelectTrigger>
-          <SelectContent></SelectContent>
+          <SelectContent>
+            {parameters.map((p) => (
+              <SelectItem value={p} key={p}>
+                {p}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
       ) : (
         <Input placeholder="Name for the new parameter" required />

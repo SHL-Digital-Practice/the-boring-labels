@@ -9,11 +9,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function CategoriesSelect() {
+export default function CategorySelect() {
   return (
     <div className="space-y-2">
       <Label htmlFor="category">Category</Label>
-      <Select>
+      <Select name="category">
         <SelectTrigger id="category">
           <SelectValue placeholder="Select a category" />
         </SelectTrigger>

@@ -8,11 +8,11 @@ import {
 } from "@/components/ui/select";
 import { dictionaries } from "../lib/mock";
 
-export default function DictionariesSelect() {
+export default function DictionarySelect() {
   return (
     <div className="space-y-2">
       <Label htmlFor="dictionary">Dictionary</Label>
-      <Select>
+      <Select name="dictionary">
         <SelectTrigger id="dictionary">
           <SelectValue placeholder="Select a dictionary" />
         </SelectTrigger>
