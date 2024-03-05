@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "🛠️ .vscode",
+      "path": ".vscode"
+    },
+    {
+      "name": "🐗 app",
+      "path": "app"
+    },
+    {
+      "name": "🏢 revit",
+      "path": "revit"
+    }
+  ],
+  "settings": {}
+}
