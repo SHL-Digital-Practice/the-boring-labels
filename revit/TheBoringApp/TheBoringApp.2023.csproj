@@ -9,6 +9,8 @@
     <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
     <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
     <OutputPath>$(MSBuildThisFileDirectory)bin\TheBoringApp.bundle\Contents\$(Version)\$(RevitVersion)\</OutputPath>
+	<UseWPF>true</UseWPF>
+	<RootNamespace>TheBoringApp</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
@@ -20,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AssetsSourceFiles Include="assets/**/*.*"/>
+    <AssetsSourceFiles Include="assets/**/*.*" />
     <None Update="TheBoringApp.addin" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
