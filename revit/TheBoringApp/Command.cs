@@ -8,10 +8,17 @@ namespace TheBoringApp
     [Transaction(TransactionMode.Manual)]
     public class Command : IExternalCommand
     {
+        static BoringAppWindow window = null;
+
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
-            var window = new BoringAppWindow();
-            window.Show();
+            if (window == null)
+            {
+                window = new BoringAppWindow();
+                window.Show();
+            }
+
+            window.Activate();
             return Result.Succeeded;
         }
     }
