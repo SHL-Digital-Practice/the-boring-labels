@@ -53,7 +53,33 @@ export default function ParameterSelect({ category }: { category?: string }) {
 
   return (
     <div className="space-y-4">
-      <Label>Parameter</Label>
+      <Label htmlFor="parameter" className="flex flex-col space-y-1">
+        <span>Parameter</span>
+        <span className="font-normal leading-snug text-muted-foreground">
+          Choose a parameter to classify against.
+        </span>
+      </Label>
+      <Select
+        required
+        name="parameter"
+        disabled={!category}
+        value={parameter}
+        onValueChange={handleParameterChange}
+      >
+        <SelectTrigger>
+          <SelectValue placeholder="Select a parameter">
+            {parameter}
+          </SelectValue>
+        </SelectTrigger>
+        <SelectContent>
+          {parameters.map((p) => (
+            <SelectItem value={p} key={p}>
+              {p}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+
       <RadioGroup
         onValueChange={handleChange}
         defaultValue="existing"
@@ -62,35 +88,14 @@ export default function ParameterSelect({ category }: { category?: string }) {
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="existing" id="existing" />
-          <Label htmlFor="existing">Select existing</Label>
+          <Label htmlFor="existing">Replace existing</Label>
         </div>
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="new" id="new" />
           <Label htmlFor="new">Create new</Label>
         </div>
       </RadioGroup>
-      {parameterToggle === "existing" ? (
-        <Select
-          required
-          name="parameter"
-          disabled={!category}
-          value={parameter}
-          onValueChange={handleParameterChange}
-        >
-          <SelectTrigger>
-            <SelectValue placeholder="Select a parameter">
-              {parameter}
-            </SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            {parameters.map((p) => (
-              <SelectItem value={p} key={p}>
-                {p}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      ) : (
+      {parameterToggle === "new" && (
         <Input
           name="parameter"
           placeholder="Name for the new parameter"
