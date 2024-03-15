@@ -9,9 +9,13 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ParameterSelect({ category }: { category?: string }) {
+  const searchParams = useSearchParams();
+  const { replace } = useRouter();
+
   const [parameterToggle, setParameterToggle] = useState<"existing" | "new">(
     "existing"
   );
@@ -21,6 +25,17 @@ export default function ParameterSelect({ category }: { category?: string }) {
 
   function handleChange(value: string) {
     setParameterToggle(value as "existing" | "new");
+  }
+
+  function handleParameterChange(value: string) {
+    setParameter(value);
+    const urlParams = new URLSearchParams(searchParams);
+    if (value) {
+      urlParams.set("parameter", parameter);
+    } else {
+      urlParams.delete("parameter");
+    }
+    replace(`${location.pathname}?${urlParams.toString()}`);
   }
 
   useEffect(() => {
@@ -60,7 +75,7 @@ export default function ParameterSelect({ category }: { category?: string }) {
           name="parameter"
           disabled={!category}
           value={parameter}
-          onValueChange={setParameter}
+          onValueChange={handleParameterChange}
         >
           <SelectTrigger>
             <SelectValue placeholder="Select a parameter">
