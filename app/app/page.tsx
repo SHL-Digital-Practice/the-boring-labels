@@ -24,7 +24,7 @@ export default function Home({
           className="flex flex-col gap-y-6"
         >
           <CategorySelect />
-          <ParameterSelect />
+          <ParameterSelect category={category} />
           <DictionarySelect />
           <ElementsTable category={category} />
           <Button type="submit">Classify</Button>

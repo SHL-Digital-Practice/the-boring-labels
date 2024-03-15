@@ -12,7 +12,7 @@ export default function DictionarySelect() {
   return (
     <div className="space-y-2">
       <Label htmlFor="dictionary">Dictionary</Label>
-      <Select name="dictionary">
+      <Select name="dictionary" disabled>
         <SelectTrigger id="dictionary">
           <SelectValue placeholder="Select a dictionary" />
         </SelectTrigger>

@@ -9,17 +9,30 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { useState } from "react";
-import { parameters } from "../lib/mock";
+import { useEffect, useState } from "react";
 
-export default function ParameterSelect() {
+export default function ParameterSelect({ category }: { category?: string }) {
   const [parameterToggle, setParameterToggle] = useState<"existing" | "new">(
     "existing"
   );
 
+  const [parameters, setParameters] = useState<string[]>([]);
+
   function handleChange(value: string) {
     setParameterToggle(value as "existing" | "new");
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!category) return;
+      const bridge = window.chrome.webview.hostObjects.appBridge;
+      const data = await bridge.GetParameterKeysForCategory(category);
+      const parsed = JSON.parse(data);
+      setParameters(parsed.sort());
+    };
+
+    fetchData();
+  }, [category]);
 
   return (
     <div className="space-y-4">
@@ -28,6 +41,7 @@ export default function ParameterSelect() {
         onValueChange={handleChange}
         defaultValue="existing"
         className="flex"
+        disabled={!category}
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="existing" id="existing" />
@@ -39,7 +53,7 @@ export default function ParameterSelect() {
         </div>
       </RadioGroup>
       {parameterToggle === "existing" ? (
-        <Select required name="parameter">
+        <Select required name="parameter" disabled={!category}>
           <SelectTrigger>
             <SelectValue placeholder="Select a parameter" />
           </SelectTrigger>
@@ -56,6 +70,7 @@ export default function ParameterSelect() {
           name="parameter"
           placeholder="Name for the new parameter"
           required
+          disabled={!category}
         />
       )}
     </div>
