@@ -1,34 +1,23 @@
-﻿using Microsoft.Web.WebView2.Core;
-using System;
+﻿using Autodesk.Revit.UI;
 using System.Reflection;
 using System.Windows;
+using TheBoringApp.Browser;
 
-namespace TheBoringApp.views
+namespace TheBoringApp.Views
 {
     /// <summary>
     /// Interaction logic for BoringAppWindow.xaml
     /// </summary>
     public partial class BoringAppWindow : Window
     {
-        public BoringAppWindow()
+        public BoringAppWindow(UIApplication uiApplication)
         {
             InitializeComponent();
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Title = $"Boring App v{version}";
             this.Closing += BoringAppWindow_Closing;
 
-            InitializeAsync();
-        }
-
-        async void InitializeAsync()
-        {
-            string userFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\.the-boring-app";
-
-            var environment = await CoreWebView2Environment.CreateAsync(null, userFolderPath, null);
-
-            await webView.EnsureCoreWebView2Async(environment);
-            
-            this.webView.Source = new Uri("http://localhost:3000");
+            new BrowserManager(webView, uiApplication);
         }
 
         private void BoringAppWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

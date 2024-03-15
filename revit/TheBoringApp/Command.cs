@@ -1,7 +1,7 @@
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-using TheBoringApp.views;
+using TheBoringApp.Views;
 
 namespace TheBoringApp
 {
@@ -14,7 +14,7 @@ namespace TheBoringApp
         {
             if (window == null)
             {
-                window = new BoringAppWindow();
+                window = new BoringAppWindow(commandData.Application);
                 window.Show();
             }
 
