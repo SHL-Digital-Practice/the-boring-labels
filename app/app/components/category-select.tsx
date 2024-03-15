@@ -19,7 +19,11 @@ export default function CategorySelect() {
 
   const handleSelect = (value: string) => {
     const params = new URLSearchParams(searchParams);
-    params.set("category", value);
+    const categoryId = categories.find((c) => c.name === value)?.id;
+
+    if (!categoryId) throw new Error("Category not found.");
+
+    params.set("category", categoryId);
 
     replace(`${location.pathname}?${params.toString()}`);
   };
