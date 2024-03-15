@@ -17,6 +17,7 @@ export default function ParameterSelect({ category }: { category?: string }) {
   );
 
   const [parameters, setParameters] = useState<string[]>([]);
+  const [parameter, setParameter] = useState<string>("");
 
   function handleChange(value: string) {
     setParameterToggle(value as "existing" | "new");
@@ -29,6 +30,7 @@ export default function ParameterSelect({ category }: { category?: string }) {
       const data = await bridge.GetParameterKeysForCategory(category);
       const parsed = JSON.parse(data);
       setParameters(parsed.sort());
+      setParameter("");
     };
 
     fetchData();
@@ -53,9 +55,17 @@ export default function ParameterSelect({ category }: { category?: string }) {
         </div>
       </RadioGroup>
       {parameterToggle === "existing" ? (
-        <Select required name="parameter" disabled={!category}>
+        <Select
+          required
+          name="parameter"
+          disabled={!category}
+          value={parameter}
+          onValueChange={setParameter}
+        >
           <SelectTrigger>
-            <SelectValue placeholder="Select a parameter" />
+            <SelectValue placeholder="Select a parameter">
+              {parameter}
+            </SelectValue>
           </SelectTrigger>
           <SelectContent>
             {parameters.map((p) => (
