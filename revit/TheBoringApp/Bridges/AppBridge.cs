@@ -8,7 +8,7 @@ namespace TheBoringApp.Bridges
 {
     [ClassInterface(ClassInterfaceType.AutoDual)]
     [ComVisible(true)]
-    class AppBridge
+    public class AppBridge
     {
         private readonly UIApplication uiApplication;
 

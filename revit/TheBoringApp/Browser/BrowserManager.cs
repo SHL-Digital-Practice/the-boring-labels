@@ -31,8 +31,9 @@ namespace TheBoringApp.Browser
             InitializeBridges();
         }
 
-        void InitializeBridges()
+        async void InitializeBridges()
         {
+            await webView.EnsureCoreWebView2Async();
             var appBridge = new AppBridge(uiApplication);
             this.webView.CoreWebView2.AddHostObjectToScript("appBridge", appBridge);
         }

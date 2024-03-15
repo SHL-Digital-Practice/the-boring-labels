@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function CategorySelect() {
   const searchParams = useSearchParams();
@@ -23,6 +24,26 @@ export default function CategorySelect() {
     replace(`${location.pathname}?${params.toString()}`);
   };
 
+  const [categories, setCategories] = useState<{ id: string; name: string }[]>(
+    []
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const bridge = window.chrome.webview.hostObjects.appBridge;
+      const data = await bridge.getCategories();
+      const parsed = JSON.parse(data);
+      const categories = Object.entries(parsed).map(([name, id]) => ({
+        id: parseInt(String(id)).toString(),
+        name: name as string,
+      }));
+
+      setCategories(categories);
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="space-y-2">
       <Label htmlFor="category">Category</Label>
@@ -32,7 +53,7 @@ export default function CategorySelect() {
         </SelectTrigger>
         <SelectContent>
           {categories.map(({ name, id }) => (
-            <SelectItem value={id} key={id}>
+            <SelectItem value={name} key={id}>
               {name}
             </SelectItem>
           ))}
