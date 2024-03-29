@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createBridge } from "../lib/bridge";
 
 export default function CategorySelect() {
   const searchParams = useSearchParams();
@@ -34,8 +35,8 @@ export default function CategorySelect() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const bridge = window.chrome.webview.hostObjects.appBridge;
-      const data = await bridge.getCategories();
+      const bridge = createBridge();
+      const data = await bridge.GetCategories();
       const parsed = JSON.parse(data);
       const categories = Object.entries(parsed).map(([name, id]) => ({
         id: parseInt(String(id)).toString(),
