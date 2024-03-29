@@ -14,22 +14,8 @@ export default function Home({
   const category = searchParams?.category || "";
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-8">
-      <div className="max-w-5xl w-full items-center justify-center">
-        <form
-          action={async (formData: FormData) => {
-            "use server";
-            console.log("formData", formData);
-          }}
-          className="flex flex-col gap-y-6"
-        >
-          <CategorySelect />
-          <ParameterSelect category={category} />
-          <DictionarySelect />
-          <ElementsTable category={category} />
-          <Button type="submit">Classify</Button>
-        </form>
-      </div>
+    <main className="flex-1 flex justify-center items-center p-8">
+      <h1 className="font-bold text-3xl">Labelling is boring.</h1>
     </main>
   );
 }

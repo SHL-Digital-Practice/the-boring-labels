@@ -1,0 +1,32 @@
+{
+  "dictionary": [
+    "Kitchen",
+    "Classroom",
+    "Office",
+    "Administration",
+    "Lab",
+    "Circulation"
+  ],
+  "parameterKey": "Department",
+  "parameterValues": [
+    "WC_01",
+    "Coffee 01",
+    "Office 102",
+    "Office 201",
+    "Reception",
+    "BIOLOGY 110",
+    "CHEMESTRY 220",
+    "Lobby",
+    "Cafeteria",
+    "Library",
+    "Gym",
+    "Auditorium",
+    "Parking",
+    "Stairs",
+    "Elevator",
+    "Hallway",
+    "Restroom",
+    "Storage",
+    "Mechanical"
+  ]
+}
