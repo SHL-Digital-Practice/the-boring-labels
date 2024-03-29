@@ -1,5 +1,6 @@
 interface Bridge {
-  GetCategories(): Promise<any>;
+  GetCategories(): Promise<string>;
+  GetParameterKeysForCategory(category: string): Promise<string>;
 }
 
 class WebBridge implements Bridge {
@@ -10,7 +11,12 @@ class WebBridge implements Bridge {
       "Category 3": 3,
     });
   }
+
+  async GetParameterKeysForCategory(category: string) {
+    return JSON.stringify(["Parameter 1", "Parameter 2", "Parameter 3"]);
+  }
 }
+
 export const createBridge = (): Bridge => {
   if (window.chrome.webview) {
     return window.chrome.webview.hostObjects.appBridge;

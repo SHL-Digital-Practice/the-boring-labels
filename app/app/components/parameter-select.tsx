@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import { createBridge } from "../lib/bridge";
 
 export default function ParameterSelect({ category }: { category?: string }) {
   const searchParams = useSearchParams();
@@ -41,7 +42,7 @@ export default function ParameterSelect({ category }: { category?: string }) {
   useEffect(() => {
     const fetchData = async () => {
       if (!category) return;
-      const bridge = window.chrome.webview.hostObjects.appBridge;
+      const bridge = createBridge();
       const data = await bridge.GetParameterKeysForCategory(category);
       const parsed = JSON.parse(data);
       setParameters(parsed.sort());
