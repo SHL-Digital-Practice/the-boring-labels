@@ -50,20 +50,22 @@ export default function CategorySelect() {
   }, []);
 
   return (
-    <div className="space-y-2">
-      <Label htmlFor="category">Category</Label>
-      <Select onValueChange={(value) => handleSelect(value)} name="category">
-        <SelectTrigger id="category">
-          <SelectValue placeholder="Select a category" />
-        </SelectTrigger>
-        <SelectContent>
-          {categories.map(({ name, id }) => (
-            <SelectItem value={name} key={id}>
-              {name}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
+    window.chrome.webview && (
+      <div className="space-y-2">
+        <Label htmlFor="category">Category</Label>
+        <Select onValueChange={(value) => handleSelect(value)} name="category">
+          <SelectTrigger id="category">
+            <SelectValue placeholder="Select a category" />
+          </SelectTrigger>
+          <SelectContent>
+            {categories.map(({ name, id }) => (
+              <SelectItem value={name} key={id}>
+                {name}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+    )
   );
 }
