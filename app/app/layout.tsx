@@ -6,7 +6,7 @@ import Nav from "./components/nav";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "The Boring App - Revit",
+  title: "The Boring App",
   description: "Classification of boring things.",
 };
 
