@@ -8,7 +8,7 @@ export default function TypeWriterHeader() {
         strings: [
           "Labelling is boring.",
           "Tagging is boring.",
-          "Categorizing is boring.",
+          "Design is awesome.",
         ],
         autoStart: true,
         loop: true,
