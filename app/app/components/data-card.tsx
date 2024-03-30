@@ -55,7 +55,7 @@ export default function DataCard() {
 
       <CardContent>
         <div className="grid w-full max-w-sm items-center gap-1.5 mb-6">
-          <Label htmlFor="spreadsheet">Spreadsheet</Label>
+          <Label htmlFor="spreadsheet">Upload</Label>
           <Input id="spreadsheet" type="file" onChange={handleFileChange} />
         </div>
         {data.length > 0 && (
@@ -98,8 +98,6 @@ export default function DataCard() {
           </Card>
         )}
       </CardContent>
-
-      <CardFooter>Here the footer</CardFooter>
     </Card>
   );
 }
