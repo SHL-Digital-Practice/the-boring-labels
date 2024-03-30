@@ -30,7 +30,6 @@ export default function ClassifierCard({
       <CardContent>
         <form
           action={async (formData: FormData) => {
-            "use server";
             console.log("formData", formData);
           }}
           className="flex flex-col gap-y-6 "

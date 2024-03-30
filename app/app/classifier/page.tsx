@@ -10,11 +10,13 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen flex-col items-center py-8 px-3">
-      <DataCard
-        setClassificationData={setClassificationData}
-        classificationData={classificationData}
-      />
-      <ClassifierCard />
+      <div className="flex flex-col sm:flex-row w-full gap-6">
+        <DataCard
+          setClassificationData={setClassificationData}
+          classificationData={classificationData}
+        />
+        <ClassifierCard />
+      </div>
     </main>
   );
 }
