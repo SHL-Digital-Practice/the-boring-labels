@@ -15,7 +15,7 @@ export default function Home({
   return (
     <main className="flex-1 flex flex-col gap-4 justify-center items-center p-8">
       <TypeWriterHeader />
-      <Link href="label">
+      <Link href="classifier">
         <Button>
           Try out the classifier <SparklesIcon className="ml-2 w-5" />
         </Button>

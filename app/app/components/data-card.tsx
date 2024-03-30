@@ -53,7 +53,7 @@ export default function DataCard() {
         <CardDescription>
           <span>
             Upload your data to be classified. For an example of a supported
-            dataset, download the &nbsp;
+            dataset, download the&nbsp;
             <a href="#" className="underline underline-offset-2">
               sample.csv
             </a>
