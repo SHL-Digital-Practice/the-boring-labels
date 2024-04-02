@@ -27,7 +27,7 @@ export default function ClassifierCard({
       <CardHeader>
         <CardTitle>Classification settings</CardTitle>
         <CardDescription>
-          Choose how you want to label you data.
+          Choose how you want to classify you data.
         </CardDescription>
       </CardHeader>
       <CardContent>

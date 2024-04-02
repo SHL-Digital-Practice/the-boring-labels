@@ -27,12 +27,14 @@ import { useState } from "react";
 export default function DataCard({
   setClassificationData,
   classificationData,
+  setHeaders,
+  headers,
 }: {
   setClassificationData: React.Dispatch<React.SetStateAction<any[]>>;
   classificationData: any[];
+  headers: string[];
+  setHeaders: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const [headers, setHeaders] = useState<Array<string>>([]);
-
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
