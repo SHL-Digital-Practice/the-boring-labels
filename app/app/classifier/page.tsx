@@ -21,6 +21,7 @@ export default function Home() {
         <ClassifierCard
           setClassificationData={setClassificationData}
           classificationData={classificationData}
+          parameters={headers}
         />
       </div>
     </main>

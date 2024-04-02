@@ -13,7 +13,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createBridge } from "../lib/bridge";
 
-export default function ParameterSelect({ category }: { category?: string }) {
+export default function ParameterSelect({
+  category,
+  parameters,
+}: {
+  category?: string;
+  parameters: string[];
+}) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
@@ -21,7 +27,6 @@ export default function ParameterSelect({ category }: { category?: string }) {
     "existing"
   );
 
-  const [parameters, setParameters] = useState<string[]>([]);
   const [parameter, setParameter] = useState<string>("");
 
   function handleChange(value: string) {
@@ -40,16 +45,15 @@ export default function ParameterSelect({ category }: { category?: string }) {
   }
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (!category) return;
-      const bridge = createBridge();
-      const data = await bridge.GetParameterKeysForCategory(category);
-      const parsed = JSON.parse(data);
-      setParameters(parsed.sort());
-      setParameter("");
-    };
-
-    fetchData();
+    // const fetchData = async () => {
+    //   if (!category) return;
+    //   const bridge = createBridge();
+    //   const data = await bridge.GetParameterKeysForCategory(category);
+    //   const parsed = JSON.parse(data);
+    //   setParameters(parsed.sort());
+    //   setParameter("");
+    // };
+    // fetchData();
   }, [category]);
 
   return (
@@ -63,7 +67,7 @@ export default function ParameterSelect({ category }: { category?: string }) {
       <Select
         required
         name="parameter"
-        disabled={!category}
+        disabled={parameters.length === 0}
         value={parameter}
         onValueChange={handleParameterChange}
       >
