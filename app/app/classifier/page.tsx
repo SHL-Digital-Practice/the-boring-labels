@@ -10,20 +10,18 @@ export default function Home() {
   const [headers, setHeaders] = useState<Array<string>>([]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center py-8 px-3">
-      <div className="flex flex-col sm:flex-row w-full gap-6">
-        <DataCard
-          setClassificationData={setClassificationData}
-          classificationData={classificationData}
-          headers={headers}
-          setHeaders={setHeaders}
-        />
-        <ClassifierCard
-          setClassificationData={setClassificationData}
-          classificationData={classificationData}
-          parameters={headers}
-        />
-      </div>
-    </main>
+    <div className="flex flex-col sm:flex-row w-full gap-6">
+      <DataCard
+        setClassificationData={setClassificationData}
+        classificationData={classificationData}
+        headers={headers}
+        setHeaders={setHeaders}
+      />
+      <ClassifierCard
+        setClassificationData={setClassificationData}
+        classificationData={classificationData}
+        parameters={headers}
+      />
+    </div>
   );
 }

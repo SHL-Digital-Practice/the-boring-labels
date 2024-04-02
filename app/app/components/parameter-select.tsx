@@ -102,7 +102,7 @@ export default function ParameterSelect({
       </RadioGroup>
       {parameterToggle === "new" && (
         <Input
-          name="parameter"
+          name="newParameter"
           placeholder="Name for the new parameter"
           required
         />

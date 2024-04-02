@@ -9,6 +9,7 @@ import {
 import CategorySelect from "./category-select";
 import DictionarySelect from "./dictionary-select";
 import ParameterSelect from "./parameter-select";
+import { classify } from "@/app/actions";
 
 export default function ClassifierCard({
   searchParams,
@@ -23,6 +24,7 @@ export default function ClassifierCard({
   parameters: string[];
 }) {
   const category = searchParams?.category || "";
+  const classifyWithData = classify.bind(null, classificationData);
 
   return (
     <Card className="md:w-2/5">
@@ -33,12 +35,7 @@ export default function ClassifierCard({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form
-          action={async (formData: FormData) => {
-            console.log("formData", formData);
-          }}
-          className="flex flex-col gap-y-6 "
-        >
+        <form action={classifyWithData} className="flex flex-col gap-y-6 ">
           {/* <CategorySelect /> */}
           <ParameterSelect category={category} parameters={parameters} />
           <DictionarySelect />
