@@ -34,13 +34,13 @@ export default function ParameterSelect({
   }
 
   function handleParameterChange(value: string) {
-    setParameter(value);
     const urlParams = new URLSearchParams(searchParams);
     if (value) {
-      urlParams.set("parameter", parameter);
+      urlParams.set("parameter", value);
     } else {
       urlParams.delete("parameter");
     }
+    setParameter(value);
     replace(`${location.pathname}?${urlParams.toString()}`);
   }
 
@@ -77,8 +77,8 @@ export default function ParameterSelect({
           </SelectValue>
         </SelectTrigger>
         <SelectContent>
-          {parameters.map((p) => (
-            <SelectItem value={p} key={p}>
+          {parameters.map((p, index) => (
+            <SelectItem value={p} key={index}>
               {p}
             </SelectItem>
           ))}
