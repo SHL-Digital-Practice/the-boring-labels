@@ -1,11 +1,9 @@
 "use server";
 
-import { search } from "./lib/openai";
+import { programs } from "./lib/programs";
+import { classifyOpenAI } from "./lib/openai/classify";
 
-type ClassificationResult = Array<{
-  key: string;
-  confidence: number;
-}>;
+const programsNames = programs.map((program) => program.key);
 
 export async function classify(classificationData: any[], formData: FormData) {
   const parameter = formData.get("parameter");
@@ -16,18 +14,8 @@ export async function classify(classificationData: any[], formData: FormData) {
   const candidates = classificationData.map(
     (data) => data[parameter.toString()]
   );
-  console.log("candidates", candidates);
 
-  const promises = candidates.map(async (candidate) => {
-    const result = await search(candidate);
-    const classificationResults: ClassificationResult = result.map((r) => ({
-      key: r[0].metadata.source,
-      confidence: r[1],
-    }));
+  const lessCandidates = candidates.slice(0, 50); // Limit to 50 candidates
 
-    console.log("classificationResults", classificationResults);
-    return result;
-  });
-
-  const results = await Promise.all(promises);
+  const result = await classifyOpenAI(lessCandidates, programsNames);
 }
