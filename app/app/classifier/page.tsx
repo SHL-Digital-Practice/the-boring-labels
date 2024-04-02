@@ -15,7 +15,10 @@ export default function Home() {
           setClassificationData={setClassificationData}
           classificationData={classificationData}
         />
-        <ClassifierCard />
+        <ClassifierCard
+          setClassificationData={setClassificationData}
+          classificationData={classificationData}
+        />
       </div>
     </main>
   );

@@ -12,10 +12,13 @@ import ParameterSelect from "./parameter-select";
 
 export default function ClassifierCard({
   searchParams,
+  classificationData,
 }: {
   searchParams?: {
     category?: string;
   };
+  setClassificationData: React.Dispatch<React.SetStateAction<any[]>>;
+  classificationData: any[];
 }) {
   const category = searchParams?.category || "";
 
@@ -38,7 +41,9 @@ export default function ClassifierCard({
           <ParameterSelect category={category} />
           <DictionarySelect />
           {/* <ElementsTable category={category} /> */}
-          <Button type="submit">Classify</Button>
+          <Button type="submit" disabled={classificationData.length === 0}>
+            Classify
+          </Button>
         </form>
       </CardContent>
     </Card>
