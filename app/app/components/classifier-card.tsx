@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardHeader,
@@ -10,6 +9,7 @@ import CategorySelect from "./category-select";
 import DictionarySelect from "./dictionary-select";
 import ParameterSelect from "./parameter-select";
 import { classify } from "@/app/actions";
+import { ClassifyButton } from "./classify-button";
 
 export default function ClassifierCard({
   searchParams,
@@ -40,9 +40,10 @@ export default function ClassifierCard({
           <ParameterSelect category={category} parameters={parameters} />
           <DictionarySelect />
           {/* <ElementsTable category={category} /> */}
-          <Button type="submit" disabled={classificationData.length === 0}>
-            Classify
-          </Button>
+          <ClassifyButton
+            onClick={classifyWithData}
+            disabled={classificationData.length === 0}
+          />
         </form>
       </CardContent>
     </Card>
