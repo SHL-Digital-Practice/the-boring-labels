@@ -89,7 +89,7 @@ export default function ParameterSelect({
         onValueChange={handleChange}
         defaultValue="existing"
         className="flex"
-        disabled={!category}
+        disabled={parameters.length === 0}
       >
         <div className="flex items-center space-x-2">
           <RadioGroupItem value="existing" id="existing" />
@@ -105,7 +105,6 @@ export default function ParameterSelect({
           name="parameter"
           placeholder="Name for the new parameter"
           required
-          disabled={!category}
         />
       )}
     </div>
