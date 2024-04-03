@@ -4,9 +4,19 @@ import DataCard from "../components/data-card";
 import ClassifierCard from "../components/classifier-card";
 import { useState } from "react";
 
+export type ClassificationResult = {
+  header: string;
+  items: Array<{
+    candidate: string;
+    labels: Array<string>;
+  }>;
+} | null;
+
 export default function Home() {
   // define a state here to store the uploaded data
   const [classificationData, setClassificationData] = useState<Array<any>>([]);
+  const [classificationResult, setclassificationResult] =
+    useState<ClassificationResult>(null);
   const [headers, setHeaders] = useState<Array<string>>([]);
 
   return (

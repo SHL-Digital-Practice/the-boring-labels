@@ -89,7 +89,7 @@ export const classifyOpenAI = async (
       {
         role: "system",
         content: `You will be presented with a list of names, your job is to classify each name against the labels provided below.
-        Choose only from the list of labels provided. 
+        Choose only from the list of labels provided.
         For each candidate, provide the TOP 3 labels that you think best describe the candidate.
         Write your output in json format with an array of objects, each object containing the candidate name and the top 3 labels.
         EXAMPLE: [{"candidate": "John", "labels": ["Label1", "Label2", "Label3"]}]
