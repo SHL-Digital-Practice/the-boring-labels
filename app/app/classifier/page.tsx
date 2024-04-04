@@ -1,8 +1,9 @@
 "use client";
 
 import DataCard from "../components/data-card";
-import ClassifierCard from "../components/classifier-card";
+import ClassifierSettingsCard from "../components/classifier-settings-card";
 import { useState } from "react";
+import { ClassifyCard } from "../components/classify-card";
 
 export type ClassificationResult = {
   header: string;
@@ -24,13 +25,14 @@ export default function Home() {
       <DataCard
         setClassificationData={setClassificationData}
         classificationData={classificationData}
+        classificationResult={classificationResult}
         headers={headers}
         setHeaders={setHeaders}
       />
-      <ClassifierCard
-        setClassificationData={setClassificationData}
+      <ClassifierSettingsCard parameters={headers} />
+      <ClassifyCard
         classificationData={classificationData}
-        parameters={headers}
+        setClassificationResult={setclassificationResult}
       />
     </div>
   );

@@ -22,18 +22,33 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import Papa from "papaparse";
-import { useState } from "react";
+import { ClassificationResult } from "../classifier/page";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default function DataCard({
   setClassificationData,
   classificationData,
   setHeaders,
   headers,
+  classificationResult,
 }: {
   setClassificationData: React.Dispatch<React.SetStateAction<any[]>>;
   classificationData: any[];
   headers: string[];
   setHeaders: React.Dispatch<React.SetStateAction<string[]>>;
+  classificationResult?: ClassificationResult;
 }) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -53,70 +68,126 @@ export default function DataCard({
     }
   };
 
+  console.log("classificationData", classificationData);
+  console.log("headers", headers);
+
+  console.log("rendered");
+
   return (
     <div className="md:w-3/5 flex flex-col items-start ">
-      <Card className="w-full">
-        <CardHeader>
-          <CardTitle>Data</CardTitle>
-          <CardDescription>
-            <span>
-              Upload your data to be classified. For an example of a supported
-              dataset, download the&nbsp;
-              <a href="#" className="underline underline-offset-2">
-                sample.csv
-              </a>
-            </span>
-          </CardDescription>
-        </CardHeader>
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value="data-card">
+          <Card className="w-full">
+            <CardHeader>
+              <AccordionTrigger className="text-start">
+                <CardTitle>Data</CardTitle>
+              </AccordionTrigger>
+              <CardDescription>
+                <span>
+                  Upload your data to be classified. For an example of a
+                  supported dataset, download the&nbsp;
+                  <a href="#" className="underline underline-offset-2">
+                    sample.csv
+                  </a>
+                </span>
+              </CardDescription>
+            </CardHeader>
 
-        <CardContent>
-          <div className="grid w-full max-w-sm items-center gap-1.5 mb-6">
-            <Label htmlFor="spreadsheet">Upload</Label>
-            <Input id="spreadsheet" type="file" onChange={handleFileChange} />
-          </div>
-          {classificationData.length > 0 && (
-            <Card>
-              <Table>
-                {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
-                <TableHeader>
-                  <TableRow>
-                    {headers.map((header, index) => (
-                      <TableHead
-                        key={index}
-                        className={
-                          index === headers.length - 1 ? "text-right" : ""
-                        }
-                      >
-                        {header}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {classificationData.map((row, index) => (
-                    <TableRow key={index}>
-                      {Object.values(row).map((val: unknown, cellIndex) => (
-                        <TableCell
-                          key={cellIndex}
-                          className={cn([
-                            cellIndex === headers.length - 1
-                              ? "text-right"
-                              : "",
-                            "truncate",
-                            cellIndex === 0 ? "font-semibold" : "",
-                          ])}
-                        >
-                          {val as string}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Card>
-          )}
-        </CardContent>
-      </Card>
+            <AccordionContent>
+              <CardContent>
+                <div className="grid w-full max-w-sm items-center gap-1.5 mb-6">
+                  <Label htmlFor="spreadsheet">Upload</Label>
+                  <Input
+                    id="spreadsheet"
+                    type="file"
+                    onChange={handleFileChange}
+                  />
+                </div>
+                {classificationData.length > 0 && (
+                  <Card>
+                    <Table>
+                      {/* <TableCaption>A list of your recent invoices.</TableCaption> */}
+                      <TableHeader>
+                        <TableRow>
+                          {headers.map((header, index) => (
+                            <TableHead
+                              key={index}
+                              className={
+                                index === headers.length - 1 ? "text-right" : ""
+                              }
+                            >
+                              {header}
+                            </TableHead>
+                          ))}
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {classificationData.map((row, index) => (
+                          <TableRow key={index}>
+                            {Object.values(row).map(
+                              (val: unknown, cellIndex) => (
+                                <TableCell
+                                  key={cellIndex}
+                                  className={cn([
+                                    cellIndex === headers.length - 1
+                                      ? "text-right"
+                                      : "",
+                                    "truncate",
+                                    cellIndex === 0 ? "font-semibold" : "",
+                                  ])}
+                                >
+                                  {classificationResult &&
+                                  classificationResult.header ==
+                                    Object.keys(row)[cellIndex] ? (
+                                    <TableCellWithResult
+                                      originalValue={val as string}
+                                      result={classificationResult}
+                                    />
+                                  ) : (
+                                    <div>{val as string}</div>
+                                  )}
+                                </TableCell>
+                              )
+                            )}
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </Card>
+                )}
+              </CardContent>
+            </AccordionContent>
+          </Card>
+        </AccordionItem>
+      </Accordion>
     </div>
+  );
+}
+
+function TableCellWithResult({
+  result,
+  originalValue,
+}: {
+  result: NonNullable<ClassificationResult>;
+  originalValue: string;
+}) {
+  const firstValueIndex = result.items.findIndex(
+    (i) => i.candidate === originalValue
+  );
+  const { labels } = result.items[firstValueIndex];
+
+  return (
+    <Select defaultValue={labels[0]}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue>{labels[0]}</SelectValue>
+      </SelectTrigger>
+      <SelectContent>
+        {labels.map((label, index) => (
+          <SelectItem key={index} value={label}>
+            {label}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
   );
 }

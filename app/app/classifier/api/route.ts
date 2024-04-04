@@ -13,7 +13,6 @@ export async function POST(request: Request) {
   console.time("classify");
 
   const body = await request.json();
-  console.log("Body: ", body);
   const { classificationData, parameter, dictionary } = body;
 
   if (!parameter || !dictionary) throw new Error("Missing fields.");
@@ -21,7 +20,7 @@ export async function POST(request: Request) {
     (data: any) => data[parameter.toString()]
   );
 
-  const chunkSize = 20;
+  const chunkSize = 10;
   const chunks = [];
   for (let i = 0; i < candidates.length; i += chunkSize) {
     const chunk = candidates.slice(i, i + chunkSize);
@@ -33,5 +32,6 @@ export async function POST(request: Request) {
   );
   const result = results.flat();
 
+  console.timeEnd("classify");
   return Response.json(result);
 }

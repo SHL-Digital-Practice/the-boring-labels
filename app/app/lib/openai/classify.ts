@@ -106,8 +106,6 @@ export const classifyOpenAI = async (
     ],
   });
 
-  console.log("Answer: ", response.choices[0].message.content);
-
   if (!response.choices[0].message.content)
     throw new Error("Invalid response from OpenAI");
 

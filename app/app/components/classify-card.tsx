@@ -1,34 +1,25 @@
-"use client";
-
 import {
   Card,
+  CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
-  CardDescription,
-  CardContent,
 } from "@/components/ui/card";
-import DictionarySelect from "./dictionary-select";
-import ParameterSelect from "./parameter-select";
 import { ClassifyButton } from "./classify-button";
-import { useSearchParams } from "next/navigation";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { ClassificationResult } from "../classifier/page";
 
-export default function ClassifierCard({
+export function ClassifyCard({
   classificationData,
-  parameters,
   setClassificationResult,
 }: {
-  setClassificationData: React.Dispatch<React.SetStateAction<any[]>>;
   classificationData: any[];
-  parameters: string[];
-  classificationResult?: ClassificationResult;
-  setClassificationResult?: React.Dispatch<
+  setClassificationResult: React.Dispatch<
     React.SetStateAction<ClassificationResult>
   >;
 }) {
   const searchParams = useSearchParams();
-  const category = searchParams.get("category") || "";
   const parameter = searchParams.get("parameter") || "";
   const dictionary = searchParams.get("dictionary") || -1;
 
@@ -53,6 +44,9 @@ export default function ClassifierCard({
         labels: i.labels,
       })),
     };
+
+    console.log("Data: ", classificationResult);
+    setClassificationResult(classificationResult);
     setIsClassifying(false);
     console.log("Data: ", classificationResult);
   };
@@ -60,17 +54,13 @@ export default function ClassifierCard({
   return (
     <Card className="md:w-2/5">
       <CardHeader>
-        <CardTitle>Classification settings</CardTitle>
+        <CardTitle>Classify</CardTitle>
         <CardDescription>
-          Choose how you want to classify you data.
+          Let us do the boring classification for you.
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-y-6 ">
-          {/* <CategorySelect /> */}
-          <ParameterSelect category={category} parameters={parameters} />
-          <DictionarySelect />
-          {/* <ElementsTable category={category} /> */}
           <ClassifyButton
             onClick={handleClassify}
             disabled={classificationData.length === 0 || isClassifying}
