@@ -9,12 +9,15 @@ import { ClassifyButton } from "./classify-button";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ClassificationResult } from "../classifier/page";
+import ResultsTable from "./results-table";
 
 export function ClassifyCard({
   classificationData,
   setClassificationResult,
+  classificationResult,
 }: {
   classificationData: any[];
+  classificationResult: ClassificationResult;
   setClassificationResult: React.Dispatch<
     React.SetStateAction<ClassificationResult>
   >;
@@ -27,14 +30,25 @@ export function ClassifyCard({
 
   const handleClassify = async () => {
     setIsClassifying(true);
-    const response = await fetch("/classifier/api", {
-      body: JSON.stringify({
-        classificationData,
-        parameter,
-        dictionary,
-      }),
-      method: "POST",
+    const searchParams = new URLSearchParams();
+    const candidates = classificationData.map(
+      (data: any) => data[parameter.toString()]
+    );
+    searchParams.append("candidates", candidates.join(","));
+    searchParams.append("parameter", parameter);
+    searchParams.append("dictionary", dictionary.toString());
+    const response = await fetch("/classifier/api?" + searchParams.toString(), {
+      cache: "default",
     });
+
+    // const response = await fetch("/classifier/api", {
+    //   body: JSON.stringify({
+    //     classificationData,
+    //     parameter,
+    //     dictionary,
+    //   }),
+    //   method: "POST",
+    // });
 
     const data = await response.json();
     const classificationResult: ClassificationResult = {
@@ -45,10 +59,10 @@ export function ClassifyCard({
       })),
     };
 
-    console.log("Data: ", classificationResult);
+    console.log("classification result", classificationResult);
+
     setClassificationResult(classificationResult);
     setIsClassifying(false);
-    console.log("Data: ", classificationResult);
   };
 
   return (
@@ -65,6 +79,9 @@ export function ClassifyCard({
             onClick={handleClassify}
             disabled={classificationData.length === 0 || isClassifying}
           />
+          {classificationResult && (
+            <ResultsTable results={classificationResult} />
+          )}
         </div>
       </CardContent>
     </Card>

@@ -25,12 +25,12 @@ export default function Home() {
       <DataCard
         setClassificationData={setClassificationData}
         classificationData={classificationData}
-        classificationResult={classificationResult}
         headers={headers}
         setHeaders={setHeaders}
       />
       <ClassifierSettingsCard parameters={headers} />
       <ClassifyCard
+        classificationResult={classificationResult}
         classificationData={classificationData}
         setClassificationResult={setclassificationResult}
       />

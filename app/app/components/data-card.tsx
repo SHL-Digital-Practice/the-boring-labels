@@ -42,13 +42,11 @@ export default function DataCard({
   classificationData,
   setHeaders,
   headers,
-  classificationResult,
 }: {
   setClassificationData: React.Dispatch<React.SetStateAction<any[]>>;
   classificationData: any[];
   headers: string[];
   setHeaders: React.Dispatch<React.SetStateAction<string[]>>;
-  classificationResult?: ClassificationResult;
 }) {
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
@@ -136,16 +134,7 @@ export default function DataCard({
                                     cellIndex === 0 ? "font-semibold" : "",
                                   ])}
                                 >
-                                  {classificationResult &&
-                                  classificationResult.header ==
-                                    Object.keys(row)[cellIndex] ? (
-                                    <TableCellWithResult
-                                      originalValue={val as string}
-                                      result={classificationResult}
-                                    />
-                                  ) : (
-                                    <div>{val as string}</div>
-                                  )}
+                                  {val as string}
                                 </TableCell>
                               )
                             )}
