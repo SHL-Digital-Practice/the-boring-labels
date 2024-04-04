@@ -20,7 +20,7 @@ export default function ClassifierSettingsCard({
   return (
     <Card className="md:w-2/5">
       <CardHeader>
-        <CardTitle>Classification settings</CardTitle>
+        <CardTitle>Settings</CardTitle>
         <CardDescription>
           Choose how you want to classify you data.
         </CardDescription>
