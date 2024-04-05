@@ -11,6 +11,8 @@ import { useSearchParams } from "next/navigation";
 import { ClassificationResult } from "../classifier/page";
 import ResultsTable, { mockResults } from "./results-table";
 import { columns } from "../classifier/components/result-column";
+import { Progress } from "@/components/ui/progress";
+import { ProgressIndeterminate } from "./progress-indeterminate";
 
 export function ClassifyCard({
   classificationData,
