@@ -53,6 +53,8 @@ export async function GET(request: NextRequest) {
     chunks.map((chunk) => classifyOpenAI(chunk, programsNames))
   );
 
+  const flatResults = results.flat();
+
   console.timeEnd("classify");
-  return Response.json(results);
+  return Response.json(flatResults);
 }

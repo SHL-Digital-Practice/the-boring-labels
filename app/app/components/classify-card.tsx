@@ -10,9 +10,8 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ClassificationResult } from "../classifier/page";
 import ResultsTable, { mockResults } from "./results-table";
-import { columns } from "../classifier/components/result-column";
+import { Result, columns } from "../classifier/components/result-column";
 import { Progress } from "@/components/ui/progress";
-import { ProgressIndeterminate } from "./progress-indeterminate";
 
 export function ClassifyCard({
   classificationData,
@@ -54,6 +53,7 @@ export function ClassifyCard({
     // });
 
     const data = await response.json();
+    console.log("response", data);
     const classificationResult: ClassificationResult = {
       header: parameter,
       items: data.map((i: any) => ({
@@ -62,11 +62,17 @@ export function ClassifyCard({
       })),
     };
 
-    console.log("classification result", classificationResult);
-
     setClassificationResult(classificationResult);
     setIsClassifying(false);
   };
+
+  const formattedResults: Result[] = classificationResult
+    ? classificationResult.items.map((item, index) => ({
+        id: index,
+        candidate: item.candidate,
+        labels: item.labels,
+      }))
+    : [];
 
   return (
     <Card className="md:w-2/5">
@@ -83,7 +89,9 @@ export function ClassifyCard({
             disabled={classificationData.length === 0 || isClassifying}
             pending={isClassifying}
           />
-          {true && <ResultsTable data={mockResults} columns={columns} />}
+          {formattedResults.length > 0 && (
+            <ResultsTable data={formattedResults} columns={columns} />
+          )}
         </div>
       </CardContent>
     </Card>

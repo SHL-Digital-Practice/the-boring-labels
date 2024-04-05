@@ -9,7 +9,7 @@ export type ClassificationResult = {
   header: string;
   items: Array<{
     candidate: string;
-    labels: Array<string>;
+    labels: [string, string, string];
   }>;
 } | null;
 

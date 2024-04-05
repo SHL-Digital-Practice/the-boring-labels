@@ -135,6 +135,7 @@ export default function ResultsTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
   });
+
   return (
     <div>
       <div className="rounded-md border">

@@ -20,14 +20,16 @@ export type Result = {
 
 export const columns: ColumnDef<Result>[] = [
   {
+    id: "0",
     accessorKey: "candidate",
     header: "Candidate",
   },
   {
+    id: "1",
     accessorKey: "labels",
     header: () => <div className="text-right">Labels</div>,
     cell: ({ row }) => {
-      const labels = row.getValue("labels") as Result["labels"];
+      const labels = row.getValue("1") as Result["labels"];
 
       return <ResultLabelsCell labels={labels} />;
     },
