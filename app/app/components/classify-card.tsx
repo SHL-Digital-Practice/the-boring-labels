@@ -79,6 +79,7 @@ export function ClassifyCard({
           <ClassifyButton
             onClick={handleClassify}
             disabled={classificationData.length === 0 || isClassifying}
+            pending={isClassifying}
           />
           {true && <ResultsTable data={mockResults} columns={columns} />}
         </div>
