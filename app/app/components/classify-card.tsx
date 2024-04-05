@@ -9,7 +9,8 @@ import { ClassifyButton } from "./classify-button";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { ClassificationResult } from "../classifier/page";
-import ResultsTable from "./results-table";
+import ResultsTable, { mockResults } from "./results-table";
+import { columns } from "../classifier/components/result-column";
 
 export function ClassifyCard({
   classificationData,
@@ -79,9 +80,7 @@ export function ClassifyCard({
             onClick={handleClassify}
             disabled={classificationData.length === 0 || isClassifying}
           />
-          {classificationResult && (
-            <ResultsTable results={classificationResult} />
-          )}
+          {true && <ResultsTable data={mockResults} columns={columns} />}
         </div>
       </CardContent>
     </Card>

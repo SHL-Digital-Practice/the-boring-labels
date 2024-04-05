@@ -51,7 +51,6 @@ export default function DataCard({
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
-      console.log(file);
 
       if (file.type !== "text/csv") return;
 
@@ -65,11 +64,6 @@ export default function DataCard({
       });
     }
   };
-
-  console.log("classificationData", classificationData);
-  console.log("headers", headers);
-
-  console.log("rendered");
 
   return (
     <div className="md:w-3/5 flex flex-col items-start ">
