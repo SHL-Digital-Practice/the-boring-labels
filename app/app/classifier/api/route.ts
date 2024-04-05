@@ -34,7 +34,7 @@ const programsNames = programs.map((program) => program.key);
 export async function GET(request: NextRequest) {
   try {
     console.time("classify");
-    const searchParams = request.nextUrl.searchParams;
+    const { searchParams } = new URL(request.url);
     const candidates = searchParams.get("candidates")?.split(",");
     const parameter = searchParams.get("parameter");
     const dictionary = searchParams.get("dictionary");
