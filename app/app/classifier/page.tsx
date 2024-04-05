@@ -21,19 +21,25 @@ export default function Home() {
   const [headers, setHeaders] = useState<Array<string>>([]);
 
   return (
-    <div className="flex flex-col md:flex-row w-full gap-6">
-      <DataCard
-        setClassificationData={setClassificationData}
-        classificationData={classificationData}
-        headers={headers}
-        setHeaders={setHeaders}
-      />
-      <ClassifierSettingsCard parameters={headers} />
-      <ClassifyCard
-        classificationResult={classificationResult}
-        classificationData={classificationData}
-        setClassificationResult={setclassificationResult}
-      />
+    <div className="flex flex-col w-full gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
+        <div className="md:w-3/5">
+          <DataCard
+            setClassificationData={setClassificationData}
+            classificationData={classificationData}
+            headers={headers}
+            setHeaders={setHeaders}
+          />
+        </div>
+        <div className="flex flex-col md:w-2/5 gap-6">
+          <ClassifierSettingsCard parameters={headers} />
+          <ClassifyCard
+            classificationResult={classificationResult}
+            classificationData={classificationData}
+            setClassificationResult={setclassificationResult}
+          />
+        </div>
+      </div>
     </div>
   );
 }

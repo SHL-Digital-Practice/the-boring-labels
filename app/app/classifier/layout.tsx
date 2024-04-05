@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 export default function ClassifierLayout({
   children,
 }: Readonly<{
@@ -5,7 +7,7 @@ export default function ClassifierLayout({
 }>) {
   return (
     <main className="flex min-h-screen flex-col items-center py-8 px-3">
-      {children}
+      <Suspense>{children}</Suspense>
     </main>
   );
 }

@@ -75,7 +75,7 @@ export function ClassifyCard({
     : [];
 
   return (
-    <Card className="md:w-2/5">
+    <Card className="w-full">
       <CardHeader>
         <CardTitle>Classify</CardTitle>
         <CardDescription>

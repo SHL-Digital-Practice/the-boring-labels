@@ -26,7 +26,7 @@ export default function ClassifierSettingsCard({
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="settings-card" className="border-none">
-        <Card>
+        <Card className="h-full ">
           <CardHeader>
             <AccordionTrigger className="text-start">
               <CardTitle>Settings</CardTitle>
