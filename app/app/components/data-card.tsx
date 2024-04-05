@@ -66,9 +66,9 @@ export default function DataCard({
   };
 
   return (
-    <div className="md:w-3/5 flex flex-col items-start ">
+    <div className="flex flex-col items-start ">
       <Accordion type="single" collapsible className="w-full">
-        <AccordionItem value="data-card">
+        <AccordionItem value="data-card" className="border-none">
           <Card className="w-full">
             <CardHeader>
               <AccordionTrigger className="text-start">

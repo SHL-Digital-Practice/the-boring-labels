@@ -21,7 +21,7 @@ export default function Home() {
   const [headers, setHeaders] = useState<Array<string>>([]);
 
   return (
-    <div className="flex flex-col sm:flex-row w-full gap-6">
+    <div className="flex flex-col md:flex-row w-full gap-6">
       <DataCard
         setClassificationData={setClassificationData}
         classificationData={classificationData}
