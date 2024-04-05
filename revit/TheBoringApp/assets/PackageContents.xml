@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ApplicationPackage
+  SchemaVersion="1.0"
+  AutodeskProduct="Revit"
+  Name="TheBoringApp"
+>
+  <Components Description="Revit 2023">
+    <ComponentEntry
+      AppName="TheBoringApp"
+      Version="THE_BORING_APP_VERSION"
+      ModuleName="./Contents/THE_BORING_APP_VERSION/2023/TheBoringApp.addin"
+      />
+    <RuntimeRequirements OS="Win64" Platform="Revit" SeriesMin="R2023" SeriesMax="R2023" />
+  </Components>
+</ApplicationPackage>
