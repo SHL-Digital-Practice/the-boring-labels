@@ -30,7 +30,7 @@ const programsNames = programs.map((program) => program.key);
 //   console.timeEnd("classify");
 //   return Response.json(result);
 // }
-
+export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   try {
     console.time("classify");
