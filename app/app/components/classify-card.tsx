@@ -39,6 +39,9 @@ export function ClassifyCard({
     searchParams.append("candidates", candidates.join(","));
     searchParams.append("parameter", parameter);
     searchParams.append("dictionary", dictionary.toString());
+
+    const test = await fetch("/classifier/api/test");
+
     const response = await fetch("/classifier/api?" + searchParams.toString(), {
       cache: "default",
     });
