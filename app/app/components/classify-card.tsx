@@ -53,6 +53,13 @@ export function ClassifyCard({
     // });
 
     const data = await response.json();
+
+    if (data.error) {
+      console.log("Failed to classify: ", data.error);
+      setIsClassifying(false);
+      return;
+    }
+
     console.log("response", data);
     const classificationResult: ClassificationResult = {
       header: parameter,

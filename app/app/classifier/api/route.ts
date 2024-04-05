@@ -32,29 +32,34 @@ const programsNames = programs.map((program) => program.key);
 // }
 
 export async function GET(request: NextRequest) {
-  console.time("classify");
+  try {
+    console.time("classify");
+    const searchParams = request.nextUrl.searchParams;
+    const candidates = searchParams.get("candidates")?.split(",");
+    const parameter = searchParams.get("parameter");
+    const dictionary = searchParams.get("dictionary");
 
-  const searchParams = request.nextUrl.searchParams;
-  const candidates = searchParams.get("candidates")?.split(",");
-  const parameter = searchParams.get("parameter");
-  const dictionary = searchParams.get("dictionary");
+    if (!parameter || !dictionary || !candidates)
+      throw new Error("Missing fields.");
 
-  if (!parameter || !dictionary || !candidates)
-    throw new Error("Missing fields.");
+    const chunkSize = 10;
+    const chunks = [];
+    for (let i = 0; i < candidates.length; i += chunkSize) {
+      const chunk = candidates.slice(i, i + chunkSize);
+      chunks.push(chunk);
+    }
 
-  const chunkSize = 10;
-  const chunks = [];
-  for (let i = 0; i < candidates.length; i += chunkSize) {
-    const chunk = candidates.slice(i, i + chunkSize);
-    chunks.push(chunk);
+    const results = await Promise.all(
+      chunks.map((chunk) => classifyOpenAI(chunk, programsNames))
+    );
+
+    const flatResults = results.flat();
+
+    console.timeEnd("classify");
+    return Response.json(flatResults);
+  } catch (error) {
+    return Response.json({
+      error: JSON.stringify(error),
+    });
   }
-
-  const results = await Promise.all(
-    chunks.map((chunk) => classifyOpenAI(chunk, programsNames))
-  );
-
-  const flatResults = results.flat();
-
-  console.timeEnd("classify");
-  return Response.json(flatResults);
 }
