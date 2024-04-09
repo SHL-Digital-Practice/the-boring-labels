@@ -10,6 +10,11 @@ export const programs = [
       "Spaces designed for leisure, relaxation, and enjoyment, often including games, seating, and entertainment facilities.",
   },
   {
+    key: "Toilet",
+    description:
+      "A room or facility containing a toilet, sink, and other amenities for personal hygiene.",
+  },
+  {
     key: "Workspaces",
     description:
       "Areas tailored for individual or collaborative work, often including desks, computers, and necessary technology.",
