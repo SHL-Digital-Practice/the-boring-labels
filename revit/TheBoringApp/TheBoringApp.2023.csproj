@@ -25,6 +25,10 @@
 
   <ItemGroup>
     <AssetsSourceFiles Include="assets/**/*.*" />
+    <None Remove="Resources\icon_32x32.png" />
+    <EmbeddedResource Include="Resources\icon_32x32.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Update="TheBoringApp.addin" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 

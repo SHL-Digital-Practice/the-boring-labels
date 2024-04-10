@@ -146,31 +146,3 @@ export default function DataCard({
     </div>
   );
 }
-
-function TableCellWithResult({
-  result,
-  originalValue,
-}: {
-  result: NonNullable<ClassificationResult>;
-  originalValue: string;
-}) {
-  const firstValueIndex = result.items.findIndex(
-    (i) => i.candidate === originalValue
-  );
-  const { labels } = result.items[firstValueIndex];
-
-  return (
-    <Select defaultValue={labels[0]}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue>{labels[0]}</SelectValue>
-      </SelectTrigger>
-      <SelectContent>
-        {labels.map((label, index) => (
-          <SelectItem key={index} value={label}>
-            {label}
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
-  );
-}
