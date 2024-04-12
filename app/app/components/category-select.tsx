@@ -1,7 +1,6 @@
 "use client";
 
 import { Label } from "@/components/ui/label";
-import { categories } from "../lib/mock";
 
 import {
   Select,
@@ -14,7 +13,11 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { createBridge } from "../lib/bridge";
 
-export default function CategorySelect() {
+export default function CategorySelect({
+  handleInputChange,
+}: {
+  handleInputChange: (value: string) => void | Promise<void>;
+}) {
   const searchParams = useSearchParams();
   const { replace } = useRouter();
 
@@ -23,6 +26,7 @@ export default function CategorySelect() {
     const categoryId = categories.find((c) => c.name === value)?.id;
 
     if (!categoryId) throw new Error("Category not found.");
+    handleInputChange(categoryId);
 
     params.set("category", categoryId);
 

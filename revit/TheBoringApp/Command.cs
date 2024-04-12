@@ -12,9 +12,11 @@ namespace TheBoringApp
 
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
+            var chatoExternalEvent = new ChatoEvent();
+
             if (window == null)
             {
-                window = new BoringAppWindow(commandData.Application);
+                window = new BoringAppWindow(commandData.Application, chatoExternalEvent);
                 window.Show();
             }
 

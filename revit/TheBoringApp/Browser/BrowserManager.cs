@@ -10,11 +10,13 @@ namespace TheBoringApp.Browser
     {
         private readonly WebView2 webView;
         private readonly UIApplication uiApplication;
+        private readonly ChatoEvent chatoExternalEvent;
 
-        public BrowserManager(WebView2 webView, UIApplication uiApplication)
+        public BrowserManager(WebView2 webView, UIApplication uiApplication, ChatoEvent chatoExternalEvent)
         {
             this.webView = webView;
             this.uiApplication = uiApplication;
+            this.chatoExternalEvent = chatoExternalEvent;
             InitializeAsync();
         }
 
@@ -26,7 +28,12 @@ namespace TheBoringApp.Browser
 
             await webView.EnsureCoreWebView2Async(environment);
 
+#if DEBUG
             this.webView.Source = new Uri("http://localhost:3000");
+
+#else
+            this.webView.Source = new Uri("https://main.daoavje9flk95.amplifyapp.com");
+#endif
 
             InitializeBridges();
         }
@@ -34,7 +41,7 @@ namespace TheBoringApp.Browser
         async void InitializeBridges()
         {
             await webView.EnsureCoreWebView2Async();
-            var appBridge = new AppBridge(uiApplication);
+            var appBridge = new AppBridge(uiApplication, chatoExternalEvent);
             this.webView.CoreWebView2.AddHostObjectToScript("appBridge", appBridge);
         }
     }

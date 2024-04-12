@@ -96,8 +96,8 @@ export default function ParameterSelect({
           <Label htmlFor="existing">Replace existing</Label>
         </div>
         <div className="flex items-center space-x-2">
-          <RadioGroupItem value="new" id="new" />
-          <Label htmlFor="new">Create new</Label>
+          <RadioGroupItem value="new" id="new" disabled />
+          <Label htmlFor="new">Create new (Soon)</Label>
         </div>
       </RadioGroup>
       {parameterToggle === "new" && (
@@ -105,6 +105,7 @@ export default function ParameterSelect({
           name="newParameter"
           placeholder="Name for the new parameter"
           required
+          disabled
         />
       )}
     </div>

@@ -1,6 +1,7 @@
 interface Bridge {
   GetCategories(): Promise<string>;
   GetParameterKeysForCategory(category: string): Promise<string>;
+  GetElementsByCategory(category: string, page?: number): Promise<string>;
 }
 
 class WebBridge implements Bridge {
@@ -10,6 +11,10 @@ class WebBridge implements Bridge {
       "Category 2": 2,
       "Category 3": 3,
     });
+  }
+
+  async GetElementsByCategory(category: string, page = 1) {
+    return "Not implemented in web bridge";
   }
 
   async GetParameterKeysForCategory(category: string) {

@@ -10,14 +10,14 @@ namespace TheBoringApp.Views
     /// </summary>
     public partial class BoringAppWindow : Window
     {
-        public BoringAppWindow(UIApplication uiApplication)
+        public BoringAppWindow(UIApplication uiApplication, ChatoEvent chatoExternalEvent)
         {
             InitializeComponent();
             string version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             this.Title = $"Boring App v{version}";
             this.Closing += BoringAppWindow_Closing;
 
-            new BrowserManager(webView, uiApplication);
+            new BrowserManager(webView, uiApplication, chatoExternalEvent);
         }
 
         private void BoringAppWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)

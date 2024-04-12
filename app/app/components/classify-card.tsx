@@ -14,6 +14,14 @@ import { ClassificationResult } from "../classifier/page";
 import ResultsTable, { mockResults } from "./results-table";
 import { Result, columns } from "../classifier/components/result-column";
 import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
+
+export interface ParameterUpdateInput {
+  elementIds: string[];
+  parameterKeys: string[];
+  parameterValues: string[];
+  categoryId: string;
+}
 
 export function ClassifyCard({
   classificationData,
@@ -26,6 +34,8 @@ export function ClassifyCard({
     React.SetStateAction<ClassificationResult>
   >;
 }) {
+  const context = window.chrome.webview ? "revit" : "web";
+
   const searchParams = useSearchParams();
   const parameter = searchParams.get("parameter") || "";
   const dictionary = searchParams.get("dictionary") || -1;
@@ -86,6 +96,80 @@ export function ClassifyCard({
       }))
     : [];
 
+  console.log("category", searchParams.get("category"));
+  console.log("classificationData", classificationData);
+  console.log("classificationResult", classificationResult);
+
+  const mockData: ParameterUpdateInput = {
+    categoryId: searchParams.get("category") || "-2000160",
+    elementIds: [
+      "857191",
+      "857194",
+      "857197",
+      "857200",
+      "857203",
+      "857206",
+      "857209",
+      "857279",
+      "857292",
+      "857346",
+    ],
+    parameterKeys: [
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+      "Name",
+    ],
+    parameterValues: [
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+      "Ktichen",
+    ],
+  };
+
+  const handleSaveToRevit = () => {
+    if (!classificationResult) {
+      return;
+    }
+
+    const parameterValues = classificationData.map((d) => {
+      const originalValue = d[parameter];
+      const resultIndex = classificationResult.items.findIndex(
+        (i) => i.candidate === originalValue
+      );
+      return classificationResult.items[resultIndex].labels[0];
+    });
+
+    if (classificationData.length !== parameterValues.length) {
+      console.error("Data length does not match.");
+      return;
+    }
+
+    const input: ParameterUpdateInput = {
+      categoryId: searchParams.get("category") || "-2000160",
+      elementIds: classificationData.map((data) => data["Id"]),
+      parameterKeys: classificationData.map(() => parameter),
+      parameterValues,
+    };
+
+    window.chrome.webview.hostObjects.appBridge.UpdateParameters(
+      JSON.stringify(input)
+    );
+  };
+
   return (
     <Card className="w-full">
       <CardHeader>
@@ -105,6 +189,11 @@ export function ClassifyCard({
             <ResultsTable data={formattedResults} columns={columns} />
           )}
         </div>
+        {classificationResult && context === "revit" && (
+          <Button className="mt-6" color="blue" onClick={handleSaveToRevit}>
+            Save to Revit
+          </Button>
+        )}
       </CardContent>
     </Card>
   );
