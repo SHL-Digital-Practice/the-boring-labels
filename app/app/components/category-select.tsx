@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { createBridge } from "../lib/bridge";
+import { appContext, createBridge } from "../lib/bridge";
 
 export default function CategorySelect({
   handleInputChange,
@@ -53,8 +53,10 @@ export default function CategorySelect({
     fetchData();
   }, []);
 
+  const context = appContext();
+
   return (
-    window.chrome.webview && (
+    context === "revit" && (
       <div className="space-y-2">
         <Label htmlFor="category">Category</Label>
         <Select onValueChange={(value) => handleSelect(value)} name="category">

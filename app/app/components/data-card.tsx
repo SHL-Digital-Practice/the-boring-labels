@@ -26,7 +26,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import CategorySelect from "./category-select";
-import { createBridge } from "../lib/bridge";
+import { appContext, createBridge } from "../lib/bridge";
 
 export default function DataCard({
   setClassificationData,
@@ -39,7 +39,7 @@ export default function DataCard({
   headers: string[];
   setHeaders: React.Dispatch<React.SetStateAction<string[]>>;
 }) {
-  const context = window.chrome.webview ? "revit" : "web";
+  const context = appContext();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {

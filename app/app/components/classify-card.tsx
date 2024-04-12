@@ -15,6 +15,7 @@ import ResultsTable, { mockResults } from "./results-table";
 import { Result, columns } from "../classifier/components/result-column";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { appContext, createBridge } from "../lib/bridge";
 
 export interface ParameterUpdateInput {
   elementIds: string[];
@@ -34,7 +35,7 @@ export function ClassifyCard({
     React.SetStateAction<ClassificationResult>
   >;
 }) {
-  const context = window.chrome.webview ? "revit" : "web";
+  const context = appContext();
 
   const searchParams = useSearchParams();
   const parameter = searchParams.get("parameter") || "";
@@ -165,9 +166,7 @@ export function ClassifyCard({
       parameterValues,
     };
 
-    window.chrome.webview.hostObjects.appBridge.UpdateParameters(
-      JSON.stringify(input)
-    );
+    createBridge().UpdateParameters(JSON.stringify(input));
   };
 
   return (

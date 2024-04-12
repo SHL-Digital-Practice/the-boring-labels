@@ -1,7 +1,9 @@
+"use client";
 interface Bridge {
   GetCategories(): Promise<string>;
   GetParameterKeysForCategory(category: string): Promise<string>;
   GetElementsByCategory(category: string, page?: number): Promise<string>;
+  UpdateParameters(data: string): Promise<void>;
 }
 
 class WebBridge implements Bridge {
@@ -17,6 +19,10 @@ class WebBridge implements Bridge {
     return "Not implemented in web bridge";
   }
 
+  async UpdateParameters(data: string) {
+    return;
+  }
+
   async GetParameterKeysForCategory(category: string) {
     return JSON.stringify(["Parameter 1", "Parameter 2", "Parameter 3"]);
   }
@@ -27,5 +33,13 @@ export const createBridge = (): Bridge => {
     return window.chrome.webview.hostObjects.appBridge;
   } else {
     return new WebBridge();
+  }
+};
+
+export const appContext = (): "revit" | "web" => {
+  if (typeof window !== "undefined" && window.chrome.webview) {
+    return "revit";
+  } else {
+    return "web";
   }
 };
