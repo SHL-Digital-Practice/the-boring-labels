@@ -15,9 +15,15 @@ import {
 } from "@/components/ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { Suspense } from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function Loading() {
-  return <div>Loading...</div>;
+  return (
+    <div className="flex">
+      <Skeleton className="h-6 w-10/12" />
+      <Skeleton className="ml-4 h-6 w-2/12" />
+    </div>
+  );
 }
 
 export default function ClassifierSettingsCard({
