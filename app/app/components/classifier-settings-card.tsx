@@ -14,6 +14,11 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { AccordionContent } from "@radix-ui/react-accordion";
+import { Suspense } from "react";
+
+function Loading() {
+  return <div>Loading...</div>;
+}
 
 export default function ClassifierSettingsCard({
   parameters,
@@ -39,7 +44,9 @@ export default function ClassifierSettingsCard({
             <CardContent>
               <div className="flex flex-col gap-y-6 ">
                 <ParameterSelect category={category} parameters={parameters} />
-                <DictionarySelect />
+                <Suspense fallback={<Loading />}>
+                  <DictionarySelect />
+                </Suspense>
               </div>
             </CardContent>
           </AccordionContent>

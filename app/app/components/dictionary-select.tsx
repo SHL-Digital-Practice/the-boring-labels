@@ -6,9 +6,11 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { dictionaries } from "../lib/mock";
+import { fetchDictionaries } from "../lib/data";
 
-export default function DictionarySelect() {
+export default async function DictionarySelect() {
+  const dictionaries = await fetchDictionaries();
+
   return (
     <div className="space-y-2">
       <Label htmlFor="dictionary">Dictionary</Label>
