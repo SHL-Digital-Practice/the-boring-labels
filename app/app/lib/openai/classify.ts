@@ -93,6 +93,7 @@ export const classifyOpenAI = async (
         For each candidate, provide the TOP 3 labels that you think best describe the candidate.
         Write your output in json format with an array of objects, each object containing the candidate name and the top 3 labels.
         EXAMPLE: [{"candidate": "John", "labels": ["Label1", "Label2", "Label3"]}]
+        On your response, do not edit the candidate names, even if they are misspelled or if they contain special characters like commas or dots.
         Avoid markdown in your response. Give only the json string.
         Choose ONLY from the list of tags provided here:
         Labels: ${labels.map((r) => " - " + r).join("\n")}`,
@@ -110,5 +111,8 @@ export const classifyOpenAI = async (
     throw new Error("Invalid response from OpenAI");
 
   const output = JSON.parse(response.choices[0].message.content);
+
+  console.log("INPUT", candidates);
+  console.log("RESULT", output);
   return output;
 };

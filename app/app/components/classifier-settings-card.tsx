@@ -7,7 +7,6 @@ import {
 } from "@/components/ui/card";
 import DictionarySelect from "./dictionary-select";
 import ParameterSelect from "./parameter-select";
-import { useSearchParams } from "next/navigation";
 import {
   Accordion,
   AccordionItem,
@@ -16,6 +15,7 @@ import {
 import { AccordionContent } from "@radix-ui/react-accordion";
 import { Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { fetchDictionaries } from "../lib/data";
 
 function Loading() {
   return (
@@ -26,13 +26,12 @@ function Loading() {
   );
 }
 
-export default function ClassifierSettingsCard({
+export default async function ClassifierSettingsCard({
   parameters,
 }: {
   parameters: string[];
 }) {
-  const searchParams = useSearchParams();
-  const category = searchParams.get("category") || "";
+  const dictionaries = await fetchDictionaries();
 
   return (
     <Accordion type="single" collapsible className="w-full">
@@ -49,9 +48,9 @@ export default function ClassifierSettingsCard({
           <AccordionContent>
             <CardContent>
               <div className="flex flex-col gap-y-6 ">
-                <ParameterSelect category={category} parameters={parameters} />
+                <ParameterSelect parameters={parameters} />
                 <Suspense fallback={<Loading />}>
-                  <DictionarySelect />
+                  <DictionarySelect dictionaries={dictionaries} />
                 </Suspense>
               </div>
             </CardContent>

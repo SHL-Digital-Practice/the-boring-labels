@@ -58,3 +58,11 @@ export async function fetchDictionaries(): Promise<
 > {
   return dictionaries.map((d) => ({ name: d.name, id: d.id }));
 }
+
+export async function fetchDictionaryKeys(dictionaryId: string) {
+  const dictionary = dictionaries.find((d) => d.id === dictionaryId);
+
+  if (!dictionary) throw new Error("Dictionary not found.");
+
+  return dictionary.keys;
+}

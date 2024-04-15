@@ -1,3 +1,4 @@
+"use client";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -6,15 +7,33 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { fetchDictionaries } from "../lib/data";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default async function DictionarySelect() {
-  const dictionaries = await fetchDictionaries();
+export default function DictionarySelect({
+  dictionaries,
+}: {
+  dictionaries: { name: string; id: string }[];
+}) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  const handleSelect = (dictionary: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (dictionary) {
+      params.set("dictionary", dictionary);
+    } else {
+      params.delete("dictionary");
+    }
+
+    replace(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className="space-y-2">
       <Label htmlFor="dictionary">Dictionary</Label>
-      <Select name="dictionary">
+      <Select name="dictionary" onValueChange={handleSelect}>
         <SelectTrigger id="dictionary">
           <SelectValue placeholder="Select a dictionary" />
         </SelectTrigger>

@@ -14,13 +14,13 @@ import { useEffect, useState } from "react";
 import { createBridge } from "../lib/bridge";
 
 export default function ParameterSelect({
-  category,
   parameters,
 }: {
-  category?: string;
   parameters: string[];
 }) {
   const searchParams = useSearchParams();
+  const category = searchParams.get("category") || "";
+
   const { replace } = useRouter();
 
   const [parameterToggle, setParameterToggle] = useState<"existing" | "new">(

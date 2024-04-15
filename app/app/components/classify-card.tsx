@@ -53,8 +53,6 @@ export function ClassifyCard({
     searchParams.append("parameter", parameter);
     searchParams.append("dictionary", dictionary.toString());
 
-    const test = await fetch("/classifier/api/test");
-
     const response = await fetch("/classifier/api?" + searchParams.toString(), {
       cache: "default",
     });
@@ -148,9 +146,14 @@ export function ClassifyCard({
 
     const parameterValues = classificationData.map((d) => {
       const originalValue = d[parameter];
+
       const resultIndex = classificationResult.items.findIndex(
         (i) => i.candidate === originalValue
       );
+      console.log("originalValue", originalValue);
+      console.log("resultIndex", resultIndex);
+      console.log("classificationResultItems", classificationResult.items);
+
       return classificationResult.items[resultIndex].labels[0];
     });
 
@@ -168,6 +171,8 @@ export function ClassifyCard({
 
     createBridge().UpdateParameters(JSON.stringify(input));
   };
+
+  console.log("debug", classificationResult);
 
   return (
     <Card className="w-full">
